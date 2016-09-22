@@ -4,6 +4,7 @@
         "value": "    "
     },
     "jsx": {
-        "attrsOnSameLineAsTag": false
+        "attrsOnSameLineAsTag": false,
+        "maxAttrsOnTag": 3
     }
 }

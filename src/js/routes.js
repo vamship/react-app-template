@@ -8,17 +8,11 @@ import HomePage from './containers/home-page';
 import LoginPage from './containers/login-page';
 
 const routes = (
-<Route
-       path="/"
-       component={ AppLayoutPage }>
+<Route path="/" component={ AppLayoutPage }>
   <IndexRoute component={ HomePage } />
   <Route component={ HomePage } />
-  <Route
-         path="login"
-         component={ LoginPage } />
-  <Route
-         path="dashboard"
-         component={ LoginPage } />
+  <Route path="login" component={ LoginPage } />
+  <Route path="dashboard" component={ LoginPage } />
 </Route>
 );
 

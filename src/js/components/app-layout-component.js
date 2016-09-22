@@ -45,12 +45,9 @@ class AppLayoutComponent extends React.Component {
                       iconElementRight={ <IconButton onClick={ this.gotoDashboard }>
                                            <DashboardIcon />
                                          </IconButton> } />
-              <Drawer
-                      open={ this.state.isOpen }
-                      docked={ false }
-                      onRequestChange={ (isOpen) => this.setState({
-                                            isOpen
-                                        }) }>
+              <Drawer open={ this.state.isOpen } docked={ false } onRequestChange={ (isOpen) => this.setState({
+                                                                                        isOpen
+                                                                                    }) }>
                 <AppBar
                         title={ this.props.title }
                         iconElementLeft={ <div /> }
@@ -59,10 +56,7 @@ class AppLayoutComponent extends React.Component {
                                              <CloseIcon />
                                            </IconButton> } />
                 { this.props.sidebarNav.map((item, index) => (
-                      <MenuItem
-                                key={ index }
-                                onTouchTap={ this._getNavigateHandler(item.url) }
-                                primaryText={ item.title } />
+                      <MenuItem key={ index } onTouchTap={ this._getNavigateHandler(item.url) } primaryText={ item.title } />
                   )) }
               </Drawer>
               <div>

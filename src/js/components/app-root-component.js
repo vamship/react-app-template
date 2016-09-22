@@ -40,9 +40,7 @@ class AppRootComponent extends React.Component {
         return (
             <MuiThemeProvider muiTheme={ this.props.theme }>
               <Provider store={ this.props.store }>
-                <Router
-                        history={ this.props.history }
-                        routes={ this.props.routes } />
+                <Router history={ this.props.history } routes={ this.props.routes } />
               </Provider>
             </MuiThemeProvider>
             );

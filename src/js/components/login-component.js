@@ -35,14 +35,8 @@ class LoginComponent extends React.Component {
         return (
             <div>
               <form onSubmit={ this.handleSubmit.bind(this) }>
-                <span><label htmlFor="username"> Username </label> <input
-                                                                          type="text"
-                                                                          onChange={ this.handleUsernameChange.bind(this) }
-                                                                          value={ this.state.username } /></span>
-                <span><label htmlFor="password"> Password </label> <input
-                                                                          type="text"
-                                                                          onChange={ this.handlePasswordChange.bind(this) }
-                                                                          value={ this.state.password } /></span>
+                <span><label htmlFor="username"> Username </label> <input type="text" onChange={ this.handleUsernameChange.bind(this) } value={ this.state.username } /></span>
+                <span><label htmlFor="password"> Password </label> <input type="text" onChange={ this.handlePasswordChange.bind(this) } value={ this.state.password } /></span>
                 { this.props.errorMessage &&
                   <span>{ this.props.errorMessage }</span> }
                 { this.props.isUpdating &&
