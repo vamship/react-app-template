@@ -1,0 +1,9 @@
+{
+    "plugins": [ "esformatter-jsx" ],
+    "indent": {
+        "value": "    "
+    },
+    "jsx": {
+        "attrsOnSameLineAsTag": false
+    }
+}
