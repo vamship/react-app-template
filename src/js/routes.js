@@ -6,13 +6,14 @@ import { Route, IndexRoute } from 'react-router';
 import AppLayoutPage from './containers/app-layout-page';
 import HomePage from './containers/home-page';
 import LoginPage from './containers/login-page';
+import DashboardPage from './containers/dashboard-page';
 
 const routes = (
 <Route path="/" component={ AppLayoutPage }>
   <IndexRoute component={ HomePage } />
   <Route component={ HomePage } />
   <Route path="login" component={ LoginPage } />
-  <Route path="dashboard" component={ LoginPage } />
+  <Route path="dashboard" component={ DashboardPage } protected />
 </Route>
 );
 
@@ -22,7 +23,6 @@ function traverse(route, configureRoute) {
     if (route.childRoutes) {
         route.childRoutes.forEach((childRoute) => traverse(childRoute, configureRoute));
     }
-
     return route;
 }
 
