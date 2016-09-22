@@ -23,7 +23,7 @@ const readyToRender = Promise.all([storeReady]);
 
 render(
     <AppRootComponent
-                      history={ hashHistory }
+                      history={ history }
                       theme={ theme }
                       routes={ routes }
                       readyToRender={ readyToRender }

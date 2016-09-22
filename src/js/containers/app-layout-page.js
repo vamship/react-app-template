@@ -11,14 +11,8 @@ const mapStateToProps = function(state) {
     };
 };
 
-const mapDispatchTopProps = function(dispatch) {
-    return {
-    };
-};
-
 const AppLayoutPage = connect(
-    mapStateToProps,
-    mapDispatchTopProps
+    mapStateToProps
 )(AppLayoutComponent);
 
 export default AppLayoutPage;
