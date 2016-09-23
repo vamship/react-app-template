@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, IndexRoute, hashHistory } from 'react-router';
 
-import { navActions } from './actions';
+import { loginActions, navActions } from './actions';
 import AppLayoutPage from './containers/app-layout-page';
 import HomePage from './containers/home-page';
 import LoginPage from './containers/login-page';
@@ -42,8 +42,11 @@ export default function createRoutes(store) {
         route.onEnter = (nextState, transition) => {
             const user = (store.getState()).user;
             const path = nextState.location.pathname;
-            if (route.protected && !user.authToken) {
+            const isTokenValid = (user.tokenValidUntil >= Date.now());
+            if (route.protected && !isTokenValid) {
+                const message = (user.authToken) ? 'Session expired' : '';
                 store.dispatch(navActions.navSetRedirect(path));
+                store.dispatch(loginActions.loginRequest(message));
                 transition('/login');
             }
         };

@@ -14,7 +14,7 @@ const mapStateToProps = function(state) {
 const mapDispatchTopProps = function(dispatch) {
     return {
         onLoginSubmit: (credentials) => {
-            dispatch(loginActions.loginRequest(credentials));
+            dispatch(loginActions.loginSubmit(credentials));
         }
     };
 };

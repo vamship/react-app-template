@@ -2,7 +2,7 @@ import { takeEvery, delay } from 'redux-saga';
 import { call, put, fork } from 'redux-saga/effects';
 import { loginActions, navActions } from '../actions';
 
-function* loginRequest(action) {
+function* loginSubmit(action) {
     const credentials = action.payload;
     yield put(loginActions.loginInProgress(credentials.username));
 
@@ -25,7 +25,8 @@ function* loginRequest(action) {
         lastName: 'doe',
         email: 'john.doe@nowhere.com',
         roles: ['user'],
-        authToken: `${credentials.username}__${Date.now()}`
+        authToken: `${credentials.username}__TOKEN`,
+        tokenValidUntil: Date.now() + (60 * 1000)
     }));
     yield put(navActions.navDoRedirect());
 }
@@ -37,7 +38,7 @@ function* logoutRequest() {
 
 export default function* loginSagas() {
     yield[
-        fork(takeEvery, loginActions.loginRequest.toString(), loginRequest),
+        fork(takeEvery, loginActions.loginSubmit.toString(), loginSubmit),
         fork(takeEvery, loginActions.logoutRequest.toString(), logoutRequest)
     ];
 }

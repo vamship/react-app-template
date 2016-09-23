@@ -2,6 +2,7 @@ import { createActions } from 'redux-actions';
 
 export const loginActions = createActions(
     'LOGIN_REQUEST',
+    'LOGIN_SUBMIT',
     'LOGIN_SUCCESS',
     'LOGIN_FAIL',
     'LOGIN_IN_PROGRESS',
