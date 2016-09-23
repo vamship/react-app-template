@@ -4,12 +4,16 @@ import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
 import { loginActions } from '../actions';
 
-const DashboardComponent = ({ doLogout }) => {
+const DashboardComponent = ({doLogout}) => {
     return (
         <div>
           <div>
             <strong>Dashboard</strong>
-            <button onClick={ (e) => { doLogout() } } >Logout</button>
+            <button onClick={ (e) => {
+                                  doLogout()
+                              } }>
+              Logout
+            </button>
           </div>
         </div>
         );
@@ -21,7 +25,9 @@ DashboardComponent.propTypes = {
 
 const mapDispatchToProps = function(dispatch) {
     return {
-        doLogout: () => { dispatch(loginActions.logoutRequest()); }
+        doLogout: () => {
+            dispatch(loginActions.logoutRequest());
+        }
     };
 };
 
