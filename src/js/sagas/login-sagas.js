@@ -1,6 +1,6 @@
 'use strict';
 
-import { loginActions } from '../actions';
+import { loginActions, navActions } from '../actions';
 import { takeEvery, delay } from 'redux-saga';
 import { call, put, fork } from 'redux-saga/effects';
 
@@ -31,8 +31,14 @@ function* loginRequest(action) {
     }));
 }
 
+function* logoutRequest(action) {
+    yield put(loginActions.logoutComplete());
+    console.log('TODO: Redirect to home page');
+}
+
 export default function*() {
     yield[
-        fork(takeEvery, loginActions.loginRequest.toString(), loginRequest)
+        fork(takeEvery, loginActions.loginRequest.toString(), loginRequest),
+        fork(takeEvery, loginActions.logoutRequest.toString(), logoutRequest)
     ];
 }

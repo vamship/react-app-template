@@ -6,6 +6,7 @@ import { loginActions } from '../actions';
 const LOGIN_SUCCESS = loginActions.loginSuccess.toString();
 const LOGIN_IN_PROGRESS = loginActions.loginInProgress.toString();
 const LOGIN_FAIL = loginActions.loginFail.toString();
+const LOGOUT_COMPLETE = loginActions.logoutRequest.toString();
 
 const user = handleActions({
     [ LOGIN_SUCCESS ]: (state, action) => {
@@ -35,14 +36,20 @@ const user = handleActions({
             loginError: '',
             isUpdating: true
         });
-    }
+    },
+    [ LOGOUT_COMPLETE ]: (state, action) => {
+        const user = action.payload;
+        return Object.assign({}, state, {
+            authToken: ''
+        });
+    },
 }, {
-    username: null,
-    firstName: null,
-    lastName: null,
-    email: null,
+    username: '',
+    firstName: '',
+    lastName: '',
+    email: '',
     roles: [],
-    authToken: null,
+    authToken: '',
     isUpdating: false,
     loginError: ''
 });

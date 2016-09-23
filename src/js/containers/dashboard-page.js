@@ -1,18 +1,34 @@
 'use strict';
 
-import React from 'react';
+import { connect } from 'react-redux';
+import React, { PropTypes } from 'react';
+import { loginActions } from '../actions';
 
-const Dashboard = () => {
+const DashboardComponent = ({ doLogout }) => {
     return (
         <div>
           <div>
             <strong>Dashboard</strong>
+            <button onClick={ (e) => { doLogout() } } >Logout</button>
           </div>
         </div>
         );
 };
 
-Dashboard.propTypes = {
+DashboardComponent.propTypes = {
+    doLogout: PropTypes.func.isRequired
 };
 
-export default Dashboard;
+const mapDispatchToProps = function(dispatch) {
+    return {
+        doLogout: () => { dispatch(loginActions.logoutRequest()); }
+    };
+};
+
+const DashboardPage = connect(
+    undefined,
+    mapDispatchToProps
+)(DashboardComponent);
+
+
+export default DashboardPage;
