@@ -1,5 +1,3 @@
-'use strict';
-
 import { Promise } from 'bluebird';
 import { createStore as createReduxStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';

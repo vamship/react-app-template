@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import AppLayoutComponent from '../components/app-layout-component';
 

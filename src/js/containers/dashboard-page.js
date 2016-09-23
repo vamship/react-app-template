@@ -1,5 +1,3 @@
-'use strict';
-
 import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
 import { loginActions } from '../actions';

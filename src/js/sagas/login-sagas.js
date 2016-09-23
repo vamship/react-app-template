@@ -1,5 +1,3 @@
-'use strict';
-
 import { loginActions, navActions } from '../actions';
 import { takeEvery, delay } from 'redux-saga';
 import { call, put, fork } from 'redux-saga/effects';
