@@ -24,7 +24,7 @@ DashboardComponent.propTypes = {
 const mapDispatchToProps = function(dispatch) {
     return {
         doLogout: () => {
-            dispatch(loginActions.logoutRequest());
+            dispatch(loginActions.logoutSubmit());
         }
     };
 };

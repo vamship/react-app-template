@@ -6,7 +6,7 @@ export const loginActions = createActions(
     'LOGIN_SUCCESS',
     'LOGIN_FAIL',
     'LOGIN_IN_PROGRESS',
-    'LOGOUT_REQUEST',
+    'LOGOUT_SUBMIT',
     'LOGOUT_COMPLETE'
 );
 

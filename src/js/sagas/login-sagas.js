@@ -31,7 +31,7 @@ function* loginSubmit(action) {
     yield put(navActions.navDoRedirect());
 }
 
-function* logoutRequest() {
+function* logoutSubmit() {
     yield put(loginActions.logoutComplete());
     yield put(navActions.navDoRedirect('/'));
 }
@@ -39,6 +39,6 @@ function* logoutRequest() {
 export default function* loginSagas() {
     yield[
         fork(takeEvery, loginActions.loginSubmit.toString(), loginSubmit),
-        fork(takeEvery, loginActions.logoutRequest.toString(), logoutRequest)
+        fork(takeEvery, loginActions.logoutSubmit.toString(), logoutSubmit)
     ];
 }
