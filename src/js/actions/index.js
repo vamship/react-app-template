@@ -10,5 +10,6 @@ export const loginActions = createActions(
 );
 
 export const navActions = createActions(
-    'NAV_SET_REDIRECT'
+    'NAV_SET_REDIRECT',
+    'NAV_DO_REDIRECT'
 );

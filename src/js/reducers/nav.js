@@ -13,3 +13,5 @@ const nav = handleActions({
 }, {
     redirectUrl: ''
 });
+
+export default nav;

@@ -1,6 +1,7 @@
-import { loginActions, navActions } from '../actions';
 import { takeEvery, delay } from 'redux-saga';
-import { call, put, fork } from 'redux-saga/effects';
+import { call, put, fork, select } from 'redux-saga/effects';
+import { loginActions, navActions } from '../actions';
+import { navigator } from '../routes';
 
 function* loginRequest(action) {
     const credentials = action.payload;
@@ -27,14 +28,15 @@ function* loginRequest(action) {
         roles: ['user'],
         authToken: `${credentials.username}__${Date.now()}`
     }));
+    yield put(navActions.navDoRedirect());
 }
 
 function* logoutRequest(action) {
     yield put(loginActions.logoutComplete());
-    console.log('TODO: Redirect to home page');
+    yield put(navActions.navDoRedirect('/'));
 }
 
-export default function*() {
+export default function* loginSagas() {
     yield[
         fork(takeEvery, loginActions.loginRequest.toString(), loginRequest),
         fork(takeEvery, loginActions.logoutRequest.toString(), logoutRequest)
