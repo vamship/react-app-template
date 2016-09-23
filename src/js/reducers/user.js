@@ -35,8 +35,7 @@ const user = handleActions({
             isUpdating: true
         });
     },
-    [ LOGOUT_COMPLETE ]: (state, action) => {
-        const user = action.payload;
+    [ LOGOUT_COMPLETE ]: (state) => {
         return Object.assign({}, state, {
             authToken: ''
         });

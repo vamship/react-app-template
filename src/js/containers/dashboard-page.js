@@ -7,8 +7,8 @@ const DashboardComponent = ({doLogout}) => {
         <div>
           <div>
             <strong>Dashboard</strong>
-            <button onClick={ (e) => {
-                                  doLogout()
+            <button onClick={ () => {
+                                  doLogout();
                               } }>
               Logout
             </button>

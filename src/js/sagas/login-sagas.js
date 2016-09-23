@@ -1,7 +1,6 @@
 import { takeEvery, delay } from 'redux-saga';
-import { call, put, fork, select } from 'redux-saga/effects';
+import { call, put, fork } from 'redux-saga/effects';
 import { loginActions, navActions } from '../actions';
-import { navigator } from '../routes';
 
 function* loginRequest(action) {
     const credentials = action.payload;
@@ -31,7 +30,7 @@ function* loginRequest(action) {
     yield put(navActions.navDoRedirect());
 }
 
-function* logoutRequest(action) {
+function* logoutRequest() {
     yield put(loginActions.logoutComplete());
     yield put(navActions.navDoRedirect('/'));
 }

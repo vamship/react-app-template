@@ -43,12 +43,9 @@ export default function createRoutes(store) {
             const user = (store.getState()).user;
             const path = nextState.location.pathname;
             if (route.protected && !user.authToken) {
-                console.warn(`Unauthenticated user attempting to access protected page: [${path}]`);
                 store.dispatch(navActions.navSetRedirect(path));
                 transition('/login');
             }
-            const type = route.protected ? 'PRIVATE' : 'PUBLIC';
-            console.log(`[${type}] Route entered: [${nextState.location.pathname}]`);
         };
     });
 }
