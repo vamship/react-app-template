@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRoute } from 'react-router';
+import { Route, IndexRoute, hashHistory } from 'react-router';
 
 import AppLayoutPage from './containers/app-layout-page';
 import HomePage from './containers/home-page';
@@ -23,6 +23,17 @@ function traverse(route, configureRoute) {
     }
     return route;
 }
+
+export const history = hashHistory;
+
+export const navigator = {
+    goto: function(url) {
+        history.push(url);
+    },
+    goBack: function() {
+        history.goBack();
+    }
+};
 
 export default function createRoutes(store) {
     return traverse(Route.createRouteFromReactElement(routes), (route) => {

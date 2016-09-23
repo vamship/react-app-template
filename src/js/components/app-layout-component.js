@@ -5,7 +5,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import DashboardIcon from 'material-ui/svg-icons/action/dashboard';
-import { hashHistory } from 'react-router';
+import { navigator } from '../routes';
 
 class AppLayoutComponent extends React.Component {
     constructor(props) {
@@ -27,7 +27,7 @@ class AppLayoutComponent extends React.Component {
 
     _getNavigateHandler(url) {
         return () => {
-            hashHistory.push(url);
+            navigator.goto(url);
             this.closeDrawer();
         };
     }
