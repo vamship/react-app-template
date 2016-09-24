@@ -1,4 +1,7 @@
 import React, { PropTypes } from 'react';
+import TextField from 'material-ui/TextField';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
 
 class LoginComponent extends React.Component {
     constructor(props) {
@@ -30,20 +33,40 @@ class LoginComponent extends React.Component {
     }
 
     render() {
+        const style = {
+            position: 'absolute',
+            top: '30%',
+            left: '30%',
+            padding: 30,
+            margin: 20,
+            textAlign: 'center',
+            display: 'inline-block'
+        };
         return (
-            <div>
-              <form onSubmit={ this.handleSubmit.bind(this) }>
-                <span><label htmlFor="username"> Username </label> <input type="text" onChange={ this.handleUsernameChange.bind(this) } value={ this.state.username } /></span>
-                <span><label htmlFor="password"> Password </label> <input type="text" onChange={ this.handlePasswordChange.bind(this) } value={ this.state.password } /></span>
-                { this.props.errorMessage &&
-                  <span>{ this.props.errorMessage }</span> }
-                { this.props.isUpdating &&
-                  <span>Working ...</span> }
-                <button type="submit">
-                  Submit
-                </button>
-              </form>
-            </div>
+            <Paper style={ style } zDepth={ 2 }>
+              <div>
+                <TextField
+                           hintText="username"
+                           floatingLabelText="username"
+                           onChange={ this.handleUsernameChange.bind(this) }
+                           value={ this.state.username } />
+              </div>
+              <div>
+                <TextField
+                           hintText="password"
+                           floatingLabelText="password"
+                           type="password"
+                           onChange={ this.handlePasswordChange.bind(this) }
+                           value={ this.state.password } />
+              </div>
+              { this.props.errorMessage &&
+                <span>{ this.props.errorMessage }</span> }
+              { this.props.isUpdating &&
+                <span>Working ...</span> }
+              <div>
+                <RaisedButton primary={ true } label="submit" onClick={ this.handleSubmit.bind(this) } />
+              </div>
+            </Paper>
             );
     }
 }

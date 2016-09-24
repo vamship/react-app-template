@@ -14,7 +14,7 @@ const loggerMiddleware = createLogger({
 const userTransform = createTransform(
     (state) => {
         // Ensure that the loginError property is not persisted.
-        if(state.loginError) {
+        if (state.loginError) {
             return Object.assign({}, state, {
                 loginError: ''
             });
@@ -51,7 +51,7 @@ export default function createStore(preloadedState) {
     );
     persistStore(store, {
         // Only persist the user and nav object.
-        whitelist: ['user', 'nav' ],
+        whitelist: ['user', 'nav'],
 
         // Transform the user state when rehydrating
         transforms: [userTransform]
