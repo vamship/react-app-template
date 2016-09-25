@@ -12,7 +12,7 @@ const layout = handleActions({
     }, {
         title: 'Video',
         url: '/video'
-    } ]
+    }]
 });
 
 export default layout;
