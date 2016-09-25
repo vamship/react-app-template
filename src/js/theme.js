@@ -4,9 +4,9 @@ import * as colors from 'material-ui/styles/colors';
 
 const theme = getMuiTheme({
     palette: {
-        primary1Color: colors.indigo500,
-        primary2Color: colors.indigo700,
-        primary3Color: colors.indigo100,
+        primary1Color: colors.lightBlue500,
+        primary2Color: colors.lightBlue700,
+        primary3Color: colors.lightBlue100,
 
         accent1Color: colors.pinkA200,
         accent2Color: colors.pink100,
