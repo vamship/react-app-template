@@ -9,7 +9,10 @@ const layout = handleActions({
     }, {
         title: 'Dashboard',
         url: '/dashboard'
-    }]
+    }, {
+        title: 'Video',
+        url: '/video'
+    } ]
 });
 
 export default layout;
