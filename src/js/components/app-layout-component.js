@@ -6,6 +6,7 @@ import MenuItem from 'material-ui/MenuItem';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import DashboardIcon from 'material-ui/svg-icons/action/dashboard';
 import { navigator } from '../routes';
+import * as styles from '../styles/element-styles';
 
 class AppLayoutComponent extends React.Component {
     constructor(props) {
@@ -17,6 +18,7 @@ class AppLayoutComponent extends React.Component {
         this.closeDrawer = this._getDrawerHandler(false);
         this.gotoHome = this._getNavigateHandler('/');
         this.gotoDashboard = this._getNavigateHandler('/dashboard');
+        this.titleStyle = styles.ClickableElement;
     }
 
     _getDrawerHandler(isOpen) {
@@ -37,7 +39,7 @@ class AppLayoutComponent extends React.Component {
             <div>
               <AppBar
                       title={ this.props.title }
-                      titleStyle={ { cursor: 'pointer' } }
+                      titleStyle={ this.titleStyle.style }
                       onLeftIconButtonTouchTap={ this.openDrawer }
                       onTitleTouchTap={ this.gotoHome }
                       iconElementRight={ <IconButton onClick={ this.gotoDashboard }>

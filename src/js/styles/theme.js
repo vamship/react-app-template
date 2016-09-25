@@ -2,6 +2,10 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { fade } from 'material-ui/utils/colorManipulator';
 import * as colors from 'material-ui/styles/colors';
 
+/**
+ * Defines the default theme for the application by specifying various color
+ * parameters including primary and accent colors.
+ */
 const theme = getMuiTheme({
     palette: {
         primary1Color: colors.lightBlue500,

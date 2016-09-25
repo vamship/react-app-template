@@ -2,6 +2,8 @@ import React, { PropTypes } from 'react';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import LinearProgress from 'material-ui/LinearProgress';
+import * as styles from '../styles/element-styles';
 
 class LoginComponent extends React.Component {
     constructor(props) {
@@ -12,6 +14,21 @@ class LoginComponent extends React.Component {
             password: '',
             passwordErrorMessage: ''
         };
+
+        this.loginBoxStyle = styles.CenterAlignedDiv
+            .merge(styles.CenterAlignedText)
+            .merge({
+                width: 320,
+                height: 380
+            });
+
+        this.errorMessageStyle = styles.SmallText
+            .merge(styles.ErrorColor)
+            .merge({
+                paddingTop: 20,
+                textAlign: 'left'
+            });
+
     }
 
     handleUsernameChange(e) {
@@ -39,67 +56,43 @@ class LoginComponent extends React.Component {
     }
 
     render() {
-        const loginBoxStyle = {
-            position: 'absolute',
-            width: 320,
-            height: 400,
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0,
-            margin: 'auto',
-            padding: 30,
-            textAlign: 'center',
-            display: 'inline-block'
-        };
-        const messageStyle = {
-            textAlign: 'left',
-            paddingTop: 20,
-            fontSize: 12,
-            lineHeight: '12px',
-            transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms'
-        };
-        const errorStyle = Object.assign({}, messageStyle, {
-            color: 'rgb(244, 67, 54)'
-        });
-
         return (
-            <Paper style={ loginBoxStyle } zDepth={ 2 }>
-              <h2>React App</h2>
-              <div>
-                <TextField
-                           hintText="username"
-                           floatingLabelText="username"
-                           disabled={ this.props.isUpdating }
-                           onChange={ this.handleUsernameChange.bind(this) }
-                           errorText={ this.state.usernameErrorMessage }
-                           value={ this.state.username } />
-              </div>
-              <div>
-                <TextField
-                           hintText="password"
-                           floatingLabelText="password"
-                           type="password"
-                           disabled={ this.props.isUpdating }
-                           onChange={ this.handlePasswordChange.bind(this) }
-                           errorText={ this.state.passwordErrorMessage }
-                           value={ this.state.password } />
-              </div>
-              <div style={ { paddingTop: 40 } }>
-                <RaisedButton
-                              primary={ true }
-                              label="submit"
-                              disabled={ this.props.isUpdating }
-                              onClick={ this.handleSubmit.bind(this) } />
-              </div>
-              { this.props.errorMessage &&
-                <div style={ errorStyle }>
-                  { this.props.errorMessage }
-                </div> }
+            <Paper style={ this.loginBoxStyle.style } zDepth={ 2 }>
               { this.props.isUpdating &&
-                <div style={ messageStyle }>
-                  Working ...
-                </div> }
+                <LinearProgress mode="indeterminate" /> }
+              <div style={ { padding: 30 } }>
+                <h2>React App</h2>
+                <div>
+                  <TextField
+                             hintText="username"
+                             floatingLabelText="username"
+                             disabled={ this.props.isUpdating }
+                             onChange={ this.handleUsernameChange.bind(this) }
+                             errorText={ this.state.usernameErrorMessage }
+                             value={ this.state.username } />
+                </div>
+                <div>
+                  <TextField
+                             hintText="password"
+                             floatingLabelText="password"
+                             type="password"
+                             disabled={ this.props.isUpdating }
+                             onChange={ this.handlePasswordChange.bind(this) }
+                             errorText={ this.state.passwordErrorMessage }
+                             value={ this.state.password } />
+                </div>
+                <div style={ { paddingTop: 30 } }>
+                  <RaisedButton
+                                primary={ true }
+                                label="submit"
+                                disabled={ this.props.isUpdating }
+                                onClick={ this.handleSubmit.bind(this) } />
+                </div>
+                { this.props.errorMessage &&
+                  <div style={ this.errorMessageStyle.style }>
+                    { this.props.errorMessage }
+                  </div> }
+              </div>
             </Paper>
             );
     }
