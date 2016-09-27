@@ -69,7 +69,10 @@ module.exports = function(grunt) {
                 files: [ {
                     expand: true,
                     cwd: SRC.getPath(),
-                    src: ['index.html', 'css' ],
+                    src: [
+                        '**',
+                        '!js/**'
+                    ],
                     dest: WORKING.getPath()
                 } ]
             }
