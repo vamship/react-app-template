@@ -26,6 +26,7 @@ class VideoPlayerComponent extends React.Component {
         this.handleStopClick = () => {
             //console.log('Play/pause clicked');
         };
+
         this.getSegmentClickedHandler = (marker) => {
             return () => {
                 if (!this._isVideoReady()) {
@@ -36,11 +37,48 @@ class VideoPlayerComponent extends React.Component {
                 this.video.currentTime = marker.startTime;
             };
         };
+
+        this.handleVideoTimeUpdate = () => {
+            if (!this._isVideoReady()) {
+                return;
+            }
+            const progressWidth = this._getWidthAsPercentage(this.video.currentTime);
+            this.setState({
+                progress: progressWidth
+            });
+            if (this.loopStart >= 0 && this.loopEnd >= this.loopStart) {
+                if (this.video.currentTime > this.loopEnd) {
+                    this.video.currentTime = this.loopStart;
+                }
+            }
+        };
+
+        this.handleMetadataLoad = () => {
+            const cues = this.video.textTracks[0].cues;
+            const markers = Object.keys(cues).map((prop) => {
+                const marker = cues[prop];
+                if (typeof marker === 'object') {
+                    return {
+                        startTime: marker.startTime,
+                        endTime: marker.endTime,
+                        text: marker.text
+                    };
+                }
+                return undefined;
+            }).filter(item => {
+                return item !== undefined;
+            }).sort((first, second) => {
+                return first.startTime - second.startTime;
+            });
+
+            this.setState({
+                videoSegments: this._buildSegments(markers)
+            });
+        };
     }
 
     _isVideoReady() {
         if (!this.video) {
-            //console.log('Video not initialized');
             return false;
         }
         return true;
@@ -100,40 +138,17 @@ class VideoPlayerComponent extends React.Component {
     componentDidMount() {
         this.video = this.refs.video;
 
-        this.video.addEventListener('loadedmetadata', () => {
-            const cues = this.video.textTracks[0].cues;
-            const markers = Object.keys(cues).map((prop) => {
-                const marker = cues[prop];
-                if (typeof marker === 'object') {
-                    return {
-                        startTime: marker.startTime,
-                        endTime: marker.endTime,
-                        text: marker.text
-                    };
-                }
-                return undefined;
-            }).filter(item => {
-                return item !== undefined;
-            }).sort((first, second) => {
-                return first.startTime - second.startTime;
-            });
+        this.video.addEventListener('loadedmetadata', this.handleMetadataLoad);
+        this.video.addEventListener('timeupdate', this.handleVideoTimeUpdate);
+    }
 
-            this.setState({
-                videoSegments: this._buildSegments(markers)
-            });
-        });
-
-        this.video.addEventListener('timeupdate', () => {
-            const progressWidth = this._getWidthAsPercentage(this.video.currentTime);
-            this.setState({
-                progress: progressWidth
-            });
-            if (this.loopStart >= 0 && this.loopEnd >= this.loopStart) {
-                if (this.video.currentTime > this.loopEnd) {
-                    this.video.currentTime = this.loopStart;
-                }
-            }
-        });
+    componentWillUnmount() {
+        if(!this._isVideoReady()) {
+            return;
+        }
+        this.video.removeEventListener('loadedmetadata', this.handleMetadataLoad);
+        this.video.removeEventListener('timeupdate', this.handleVideoTimeUpdate);
+        this.video = null;
     }
 
     render() {
