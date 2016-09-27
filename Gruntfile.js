@@ -69,7 +69,7 @@ module.exports = function(grunt) {
                 files: [ {
                     expand: true,
                     cwd: SRC.getPath(),
-                    src: ['index.html'],
+                    src: ['index.html', 'css' ],
                     dest: WORKING.getPath()
                 } ]
             }
@@ -165,7 +165,6 @@ module.exports = function(grunt) {
      *  - Building sources
      */
     grunt.registerTask('build', [ 'clean',
-                                    'esformatter',
                                     'eslint:dev',
                                     'copy:compile',
                                     'browserify:compile' ]);
