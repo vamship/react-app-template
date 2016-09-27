@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import VideoPositionMarker from 'material-ui/svg-icons/hardware/videogame-asset';
 import WarningIcon from 'material-ui/svg-icons/alert/warning';
 import Slider from 'material-ui/Slider';
+import * as styles from '../styles/element-styles';
 
 class VideoPlayerComponent extends React.Component {
     constructor(props) {
@@ -12,7 +13,14 @@ class VideoPlayerComponent extends React.Component {
             videoSegments: []
         };
 
+        this.video = null;
+        this.loopStart = -1;
+        this.loopEnd = -1;
+
         this.handlePlayPauseClick = (e) => {
+            if(!this._isVideoReady()) {
+                return;
+            }
             if (this.video.paused || this.video.ended) {
                 this.video.play();
             } else {
@@ -24,19 +32,38 @@ class VideoPlayerComponent extends React.Component {
         };
         this.getSegmentClickedHandler = (marker) => {
             return (e) => {
+                if(!this._isVideoReady()) {
+                    return;
+                }
+                this.loopStart = marker.startTime;
+                this.loopEnd = marker.endTime;
                 this.video.currentTime = marker.startTime;
             };
         };
     }
 
+    _isVideoReady() {
+        if(!this.video) {
+            console.log('Video not initialized');
+            return false;
+        }
+        return true;
+    }
+
     _getWidthAsPercentage(width) {
+        if(!this._isVideoReady()) {
+            return;
+        }
         if (!this.video.duration) {
             return 0;
         }
-        return (width / this.video.duration) * 100;
+        return Math.floor((width / this.video.duration) * 10000)/100;
     }
 
     _buildSegments(markers) {
+        if(!this._isVideoReady()) {
+            return [];
+        }
         let startTime = 0;
         const videoSegments = [];
         markers.forEach((marker) => {
@@ -101,19 +128,23 @@ class VideoPlayerComponent extends React.Component {
         });
 
         this.video.addEventListener('timeupdate', () => {
-            const progressWidth = Math.floor((this.video.currentTime / this.video.duration) * 100);
-
+            const progressWidth = this._getWidthAsPercentage(this.video.currentTime);
             this.setState({
                 progress: progressWidth
             });
+            if(this.loopStart >= 0 && this.loopEnd >= this.loopStart) {
+                if(this.video.currentTime > this.loopEnd) {
+                    this.video.currentTime = this.loopStart;
+                }
+            }
         });
     }
 
     render() {
         return (
             <div style={ { paddingTop: 30, border: 'solid 1px green' } }>
-              <div style={ { position: 'relative', width: 800 } }>
-                <video ref="video" controls preload="metadata">
+              <div style={ { width: 720 } }>
+                <video ref="video" preload="metadata">
                   <source src="content/video/sintel-short.webm" type="video/webm" />
                   <source src="content/video/sintel-short.mp4" type="video/mp4" />
                   <track
@@ -133,15 +164,21 @@ class VideoPlayerComponent extends React.Component {
                          srcLang="es"
                          src="content/subtitles/vtt/sintel-es.vtt" />
                 </video>
-                <div style={ { border: 'sold 1px red' } }>
+                <div style={ { position: 'relative' } }>
+                    <div style={ { position: 'absolute', left: this.state.progress + '%', display: 'inline-block' } }>
+                        *
+                    </div>
                   { this.state.videoSegments.map((segment, index) => {
-                        const style = {
+                      const style = styles.ClickableElement
+                        .merge({
                             width: segment.width + '%',
                             backgroundColor: segment.hasAlert ? 'red' : '#434343',
                             display: 'inline-block'
-                        };
+                        }).style;
                         return (
-                            <div key={ index } style={ style } onClick={ this.getSegmentClickedHandler(segment) }></div>
+                            <div key={ index } style={ style } onClick={ this.getSegmentClickedHandler(segment) }>
+                                &nbsp;
+                            </div>
                             );
                     }) }
                 </div>
