@@ -190,12 +190,14 @@ class VideoPlayerComponent extends React.Component {
                          srcLang="es"
                          src="content/subtitles/vtt/sintel-es.vtt" />
                 </video>
-                <ProgressBarComponent
-                    startTime={ this.state.pStartTime }
-                    endTime={ this.state.pEndTime }
-                    currentPos={ this.state.pCurrentPos }
-                    onBarClicked={ (segment) => { console.log('Click event received: ', segment); } }
-                    events={ this.state.pEvents } />
+                <div style={ { position: 'relative', top: -4 } } >
+                    <ProgressBarComponent
+                        startTime={ this.state.pStartTime }
+                        endTime={ this.state.pEndTime }
+                        currentPos={ this.state.pCurrentPos }
+                        onBarClicked={ (segment) => { console.log('Click event received: ', segment); } }
+                        events={ this.state.pEvents } />
+                </div>
                 <div style={ { position: 'relative' } }>
                   <div style={ { position: 'absolute', left: this.state.progress + '%', display: 'inline-block' } }>
                     *

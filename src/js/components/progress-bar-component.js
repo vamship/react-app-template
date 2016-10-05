@@ -5,7 +5,8 @@ class ProgressBarComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            videoSegments: []
+            videoSegments: [],
+            segmentKeyPrefix: 1
         };
         this.widthCalculator = this._getWidthCalculator(0);
         this.getSegmentClickedHandler = (segment) => {
@@ -36,41 +37,38 @@ class ProgressBarComponent extends React.Component {
         };
     }
 
-    _buildVideoSegments(events, startTime, endTime) {
-        let segmentBoundary = startTime;
+    _buildVideoSegments(events, windowStart, windowEnd) {
+        let segmentStart = windowStart;
         const videoSegments = [];
         events.filter((event) => {
             return (event !== undefined &&
-                    ((event.startTime >= startTime && event.startTime < endTime) ||
-                     (event.endTime >= startTime && event.endTime < endTime)));
+                    ((event.startTime >= windowStart && event.startTime < windowEnd) ||
+                     (event.endTime >= windowStart && event.endTime < windowEnd)));
         }).forEach((event) => {
-            if(event.startTime > segmentBoundary) {
+            if(event.startTime > segmentStart) {
                 videoSegments.push({
-                    startTime: segmentBoundary,
+                    startTime: segmentStart,
                     endTime: event.startTime,
-                    width: this.widthCalculator(event.startTime, segmentBoundary),
-                    type: 'filler',
+                    width: this.widthCalculator(event.startTime, segmentStart),
                     hasAlert: false
                 });
-                segmentBoundary = event.startTime;
             } 
-            segmentBoundary = Math.min(segmentBoundary, event.startTime);
+            segmentStart = Math.max(segmentStart, event.startTime);
+            const segmentEnd = Math.min(windowEnd, event.endTime);
             videoSegments.push({
-                startTime: segmentBoundary,
-                endTime: event.endTime,
-                width: this.widthCalculator(event.endTime, segmentBoundary),
-                type: 'alert',
+                startTime: segmentStart,
+                endTime: segmentEnd,
+                width: this.widthCalculator(segmentEnd, segmentStart),
                 hasAlert: true,
                 text: event.text
             });
-            segmentBoundary = event.endTime;
+            segmentStart = segmentEnd;
         });
-        if (segmentBoundary < endTime) {
+        if (segmentStart < windowEnd) {
             videoSegments.push({
-                startTime: segmentBoundary,
-                endTime,
-                width: this.widthCalculator(endTime, segmentBoundary),
-                type: 'end_filler',
+                startTime: segmentStart,
+                endTime: windowEnd,
+                width: this.widthCalculator(windowEnd, segmentStart),
                 hasAlert: false
             });
         }
@@ -85,7 +83,8 @@ class ProgressBarComponent extends React.Component {
             const videoSegments = this._buildVideoSegments(nextProps.events,
                                                           nextProps.startTime,
                                                           nextProps.endTime);
-            this.setState({ videoSegments });
+            const segmentKeyPrefix = this.state.segmentKeyPrefix + 1;
+            this.setState({ videoSegments, segmentKeyPrefix });
         }
     }
 
@@ -97,11 +96,7 @@ class ProgressBarComponent extends React.Component {
         };
 
         return (
-            <div style={ {
-                position: 'relative',
-                height: 50,
-                border: 'solid 1px pink'
-            } }>
+            <div style={ { position: 'relative' } }>
               <div style={ positionMarkerStyle }>
                 *
               </div>
@@ -109,13 +104,16 @@ class ProgressBarComponent extends React.Component {
                     const style = styles.ClickableElement
                         .merge({
                             width: segment.width,
-                            backgroundColor: segment.hasAlert ? 'red' : '#434343',
+                            backgroundColor: segment.hasAlert ?
+                                this.context.muiTheme.palette.accent1Color :
+                                this.context.muiTheme.palette.shadowColor,
                             display: 'inline-block',
                             clear: 'both',
-                            height: 20
+                            height: 20,
+                            animation: 'expando 0.5s ease-in-out'
                         }).style;
                     return (
-                        <div key={ index } style={ style } onClick={ this.getSegmentClickedHandler(segment) }>
+                        <div key={ `${this.state.segmentKeyPrefix}_${index}` } style={ style } onClick={ this.getSegmentClickedHandler(segment) }>
                         </div>
                         );
                 }) }
@@ -145,6 +143,10 @@ ProgressBarComponent.propTypes = {
         endTime: PropTypes.number.isRequired,
         text: PropTypes.string.isRequired
     }).isRequired).isRequired
+};
+
+ProgressBarComponent.contextTypes = {
+    muiTheme: PropTypes.object.isRequired
 };
 
 export default ProgressBarComponent;
