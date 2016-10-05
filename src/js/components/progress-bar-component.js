@@ -8,11 +8,16 @@ class ProgressBarComponent extends React.Component {
             videoSegments: [],
             segmentKeyPrefix: 1
         };
-        this.widthCalculator = this._getWidthCalculator(0);
+        this.calculateWidth = this._getWidthCalculator(0);
+        this.calculatePosition = this._getPositionCalculator(0, 0);
         this.getSegmentClickedHandler = (segment) => {
-            return () => {
-                console.log(`Segment clicked: ${segment}`);
-                this.props.onBarClicked(segment);
+            return (e) => {
+                const percentPosition = (e.clientX/e.target.parentElement.offsetWidth);
+                const position = this.calculatePosition(percentPosition);
+                this.props.onBarClicked({
+                    position,
+                    segment
+                });
             };
         };
     }
@@ -37,6 +42,16 @@ class ProgressBarComponent extends React.Component {
         };
     }
 
+    _getPositionCalculator(windowStart, totalWidth) {
+        console.log('Generating position calculator', windowStart, totalWidth);
+        return (percentPosition) => {
+            const offset = totalWidth * percentPosition;
+            const position = windowStart + offset;
+            console.log(`Position: ${percentPosition} * ${totalWidth} = ${offset}; ${windowStart}; ${position}`);
+            return position;
+        };
+    }
+
     _buildVideoSegments(events, windowStart, windowEnd) {
         let segmentStart = windowStart;
         const videoSegments = [];
@@ -49,7 +64,7 @@ class ProgressBarComponent extends React.Component {
                 videoSegments.push({
                     startTime: segmentStart,
                     endTime: event.startTime,
-                    width: this.widthCalculator(event.startTime, segmentStart),
+                    width: this.calculateWidth(event.startTime, segmentStart),
                     hasAlert: false
                 });
             } 
@@ -58,7 +73,7 @@ class ProgressBarComponent extends React.Component {
             videoSegments.push({
                 startTime: segmentStart,
                 endTime: segmentEnd,
-                width: this.widthCalculator(segmentEnd, segmentStart),
+                width: this.calculateWidth(segmentEnd, segmentStart),
                 hasAlert: true,
                 text: event.text
             });
@@ -68,7 +83,7 @@ class ProgressBarComponent extends React.Component {
             videoSegments.push({
                 startTime: segmentStart,
                 endTime: windowEnd,
-                width: this.widthCalculator(windowEnd, segmentStart),
+                width: this.calculateWidth(windowEnd, segmentStart),
                 hasAlert: false
             });
         }
@@ -76,22 +91,26 @@ class ProgressBarComponent extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.startTime !== nextProps.startTime ||
-           this.props.endTime !== nextProps.endTime) {
-            const delta = nextProps.endTime - nextProps.startTime;
-            this.widthCalculator = this._getWidthCalculator(delta);
+        if(this.props.windowStart !== nextProps.windowStart ||
+           this.props.windowEnd !== nextProps.windowEnd) {
+            const delta = nextProps.windowEnd - nextProps.windowStart;
+            this.calculateWidth = this._getWidthCalculator(delta);
+            this.calculatePosition = this._getPositionCalculator(nextProps.windowStart, delta);
             const videoSegments = this._buildVideoSegments(nextProps.events,
-                                                          nextProps.startTime,
-                                                          nextProps.endTime);
+                                                          nextProps.windowStart,
+                                                          nextProps.windowEnd);
             const segmentKeyPrefix = this.state.segmentKeyPrefix + 1;
             this.setState({ videoSegments, segmentKeyPrefix });
+        }
+        if(this.props.currentPos >= nextProps.windowEnd) {
+            this.props.onWindowEnd();
         }
     }
 
     render() {
         const positionMarkerStyle = {
             position: 'absolute',
-            left: this.widthCalculator(this.props.currentPos),
+            left: this.calculateWidth(this.props.currentPos, this.props.windowStart),
             display: 'inline-block'
         };
 
@@ -110,7 +129,7 @@ class ProgressBarComponent extends React.Component {
                             display: 'inline-block',
                             clear: 'both',
                             height: 20,
-                            animation: 'expando 0.5s ease-in-out'
+                            animation: 'expando 0.3s ease-in'
                         }).style;
                     return (
                         <div key={ `${this.state.segmentKeyPrefix}_${index}` } style={ style } onClick={ this.getSegmentClickedHandler(segment) }>
@@ -123,20 +142,21 @@ class ProgressBarComponent extends React.Component {
 }
 
 ProgressBarComponent.propTypes = {
-    startTime: function(props, propName, componentName) {
-        const startTime = props[propName];
-        if(typeof startTime !== 'number' || startTime < 0) {
-            return new Error(`Invalid startTime supplied to ${componentName}. Must be a non negative number.`);
+    windowStart: function(props, propName, componentName) {
+        const windowStart = props[propName];
+        if(typeof windowStart !== 'number' || windowStart < 0) {
+            return new Error(`Invalid windowStart supplied to ${componentName}. Must be a non negative number.`);
         }
     },
-    endTime: function(props, propName, componentName) {
-        const startTime = props.startTime;
-        const endTime = props[propName];
-        if(typeof endTime !== 'number' || endTime < startTime) {
-            return new Error(`Invalid endTime supplied to ${componentName}. Must be greater than or equal to startTime (${startTime}).`);
+    windowEnd: function(props, propName, componentName) {
+        const windowStart = props.windowStart;
+        const windowEnd = props[propName];
+        if(typeof windowEnd !== 'number' || windowEnd < windowStart) {
+            return new Error(`Invalid windowEnd supplied to ${componentName}. Must be greater than or equal to windowStart (${windowStart}).`);
         }
     },
     onBarClicked: PropTypes.func.isRequired,
+    onWindowEnd: PropTypes.func.isRequired,
     currentPos: PropTypes.number,
     events: PropTypes.arrayOf(PropTypes.shape({
         startTime: PropTypes.number.isRequired,

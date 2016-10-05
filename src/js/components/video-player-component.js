@@ -11,6 +11,7 @@ class VideoPlayerComponent extends React.Component {
             pStartTime: 0,
             pEndTime: 0,
             pCurrentPos: 0,
+            pZoomedIn: false,
             pEvents: []
         };
 
@@ -28,8 +29,35 @@ class VideoPlayerComponent extends React.Component {
                 this.video.pause();
             }
         };
+
         this.handleStopClick = () => {
             //console.log('Play/pause clicked');
+        };
+
+        this.handleProgressBarClick = ({ position, segment }) => {
+            if(!this._isVideoReady()) {
+                return;
+            }
+            this.video.currentTime = position;
+            const pCurrentPos = position;
+            let pZoomedIn = this.state.pZoomedIn;
+            let pStartTime = 0;
+            let pEndTime = this.video.duration;
+            if(!pZoomedIn) {
+                pStartTime = Math.max(pCurrentPos - 10, 0);
+                pEndTime = Math.min(pCurrentPos + 10, this.video.duration);
+                pZoomedIn = !pZoomedIn;
+                this.setState({
+                    pCurrentPos,
+                    pStartTime,
+                    pEndTime,
+                    pZoomedIn
+                });
+            } else {
+                this.setState({
+                    pCurrentPos
+                });
+            }
         };
 
         this.getSegmentClickedHandler = (marker) => {
@@ -54,11 +82,13 @@ class VideoPlayerComponent extends React.Component {
             }
             const progressWidth = this._getWidthAsPercentage(this.video.currentTime);
             this.setState({
-                progress: progressWidth - 0.5
+                progress: progressWidth - 0.5,
+                pCurrentPos: this.video.currentTime
             });
             if (this.loopStart >= 0 && this.loopEnd >= this.loopStart) {
                 if (this.video.currentTime > this.loopEnd) {
                     this.video.currentTime = this.loopStart;
+                    console.log(`Setting pos: ${this.video.currentTime}`);
                     this.setState({
                         pCurrentPos: this.video.currentTime
                     });
@@ -87,6 +117,9 @@ class VideoPlayerComponent extends React.Component {
             console.log('Metadata loaded');
             this.setState({
                 pEvents: segments,
+                pCurrentPos: 0,
+                pStartTime: 0,
+                pEndTime: this.video.duration,
                 videoSegments: this._buildSegments(segments)
             });
         };
@@ -168,7 +201,7 @@ class VideoPlayerComponent extends React.Component {
 
     render() {
         return (
-            <div style={ { paddingTop: 30, border: 'solid 1px green' } }>
+            <div style={ { paddingTop: 30 } }>
               <div style={ { width: 720 } }>
                 <video ref="video" preload="metadata">
                   <source src="content/video/sintel-short.webm" type="video/webm" />
@@ -192,10 +225,10 @@ class VideoPlayerComponent extends React.Component {
                 </video>
                 <div style={ { position: 'relative', top: -4 } } >
                     <ProgressBarComponent
-                        startTime={ this.state.pStartTime }
-                        endTime={ this.state.pEndTime }
+                        windowStart={ this.state.pStartTime }
+                        windowEnd={ this.state.pEndTime }
                         currentPos={ this.state.pCurrentPos }
-                        onBarClicked={ (segment) => { console.log('Click event received: ', segment); } }
+                        onBarClicked={ this.handleProgressBarClick }
                         events={ this.state.pEvents } />
                 </div>
                 <div style={ { position: 'relative' } }>
