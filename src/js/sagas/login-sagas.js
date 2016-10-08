@@ -25,7 +25,7 @@ function* loginSubmit(action) {
         lastName: 'doe',
         email: 'john.doe@nowhere.com',
         roles: ['user'],
-        authToken: `${credentials.username}__TOKEN`,
+        authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Indjb3lvdGUiLCJhY2NvdW50SWQiOiJhY21lY29ycCIsInJvbGVzIjpbInVzZXIiXX0.L13lrC5RmrfZzaDXRMwVSqkH1keHh4nYEalQfg3kXFU',
         tokenValidUntil: Date.now() + (60 * 1000)
     }));
     yield put(navActions.navDoRedirect());
