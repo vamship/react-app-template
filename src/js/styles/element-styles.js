@@ -41,3 +41,19 @@ export const SmallText = new Style({
 export const ErrorColor = new Style({
     color: 'rgb(244, 67, 54)'
 });
+
+/**
+ * Style for website logo.
+ */
+export const LogoStyle = new Style({
+    height: 24,
+    display: 'block',
+    margin: 'auto',
+    paddingRight: 10,
+    paddingLeft: 10,
+});
+
+export const TitleSectionStyle = new Style({
+    display: 'inline-block',
+    verticalAlign: 'middle'
+});

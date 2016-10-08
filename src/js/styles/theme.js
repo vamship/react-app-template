@@ -8,13 +8,13 @@ import * as colors from 'material-ui/styles/colors';
  */
 const theme = getMuiTheme({
     palette: {
-        primary1Color: colors.lightBlue500,
-        primary2Color: colors.lightBlue700,
-        primary3Color: colors.lightBlue100,
+        primary1Color: colors.blueGrey500,
+        primary2Color: colors.blueGrey700,
+        primary3Color: colors.blueGrey100,
 
-        accent1Color: colors.pinkA200,
-        accent2Color: colors.pink100,
-        accent3Color: colors.pink400,
+        accent1Color: colors.deepOrangeA700,
+        accent2Color: colors.deepOrange800,
+        accent3Color: colors.deepOrange500,
 
         textColor: colors.darkBlack,
         secondaryTextColor: (0, fade)(colors.darkBlack, 0.54),

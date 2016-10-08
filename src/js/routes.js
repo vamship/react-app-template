@@ -6,6 +6,7 @@ import AppLayoutPage from './containers/app-layout-page';
 import HomePage from './containers/home-page';
 import LoginPage from './containers/login-page';
 import DashboardPage from './containers/dashboard-page';
+import VideoPlayerPage from './containers/video-player-page';
 
 const routes = (
 <Route path="/" component={ AppLayoutPage }>
@@ -13,6 +14,7 @@ const routes = (
   <Route component={ HomePage } />
   <Route path="login" component={ LoginPage } />
   <Route path="dashboard" component={ DashboardPage } protected />
+  <Route path="video" component={ VideoPlayerPage } />
 </Route>
 );
 

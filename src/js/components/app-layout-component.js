@@ -19,6 +19,8 @@ class AppLayoutComponent extends React.Component {
         this.gotoHome = this._getNavigateHandler('/');
         this.gotoDashboard = this._getNavigateHandler('/dashboard');
         this.titleStyle = styles.ClickableElement;
+        this.logoStyle = styles.LogoStyle;
+        this.titleSectionStyle = styles.TitleSectionStyle;
     }
 
     _getDrawerHandler(isOpen) {
@@ -38,7 +40,10 @@ class AppLayoutComponent extends React.Component {
         return (
             <div>
               <AppBar
-                      title={ this.props.title }
+                      title={ <div>
+                                <div style={ this.titleSectionStyle.style } ><img style={ this.logoStyle.style } src="/img/logo.png"></img></div>
+                                <div style={ this.titleSectionStyle.style } >{ this.props.title }</div>
+                              </div> }
                       titleStyle={ this.titleStyle.style }
                       onLeftIconButtonTouchTap={ this.openDrawer }
                       onTitleTouchTap={ this.gotoHome }
@@ -49,7 +54,10 @@ class AppLayoutComponent extends React.Component {
                                                                                         isOpen
                                                                                     }) }>
                 <AppBar
-                        title={ this.props.title }
+                        title={ <div>
+                                  <div style={ this.titleSectionStyle.style } ><img style={ this.logoStyle.style } src="/img/logo.png"></img></div>
+                                  <div style={ this.titleSectionStyle.style } >{ this.props.shortTitle || this.props.title }</div>
+                                </div> }
                         iconElementLeft={ <div /> }
                         onTitleTouchTap={ this.closeDrawer }
                         iconElementRight={ <IconButton onClick={ this.closeDrawer }>
@@ -68,6 +76,7 @@ class AppLayoutComponent extends React.Component {
 }
 
 AppLayoutComponent.propTypes = {
+    shortTitle: PropTypes.string,
     title: PropTypes.string.isRequired,
     sidebarNav: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string.isRequired,
