@@ -19,6 +19,7 @@ class AppLayoutComponent extends React.Component {
         this.gotoHome = this._getNavigateHandler('/');
         this.gotoDashboard = this._getNavigateHandler('/dashboard');
         this.titleStyle = styles.ClickableElement;
+        this.logoStyle = styles.LogoStyle;
     }
 
     _getDrawerHandler(isOpen) {
@@ -38,7 +39,10 @@ class AppLayoutComponent extends React.Component {
         return (
             <div>
               <AppBar
-                      title={ this.props.title }
+                      title={ <div>
+                                <span><img style={ this.logoStyle.style } src="/images/logo.png"></img></span>
+                                <span>{ this.props.title }</span>
+                              </div> }
                       titleStyle={ this.titleStyle.style }
                       onLeftIconButtonTouchTap={ this.openDrawer }
                       onTitleTouchTap={ this.gotoHome }
@@ -49,7 +53,10 @@ class AppLayoutComponent extends React.Component {
                                                                                         isOpen
                                                                                     }) }>
                 <AppBar
-                        title={ this.props.title }
+                        title={ <div>
+                                  <span><img style={ this.logoStyle.style } src="/images/logo.png"></img></span>
+                                  <span>{ this.props.shortTitle || this.props.title }</span>
+                                </div> }
                         iconElementLeft={ <div /> }
                         onTitleTouchTap={ this.closeDrawer }
                         iconElementRight={ <IconButton onClick={ this.closeDrawer }>
@@ -68,6 +75,7 @@ class AppLayoutComponent extends React.Component {
 }
 
 AppLayoutComponent.propTypes = {
+    shortTitle: PropTypes.string,
     title: PropTypes.string.isRequired,
     sidebarNav: PropTypes.arrayOf(PropTypes.shape({
         title: PropTypes.string.isRequired,

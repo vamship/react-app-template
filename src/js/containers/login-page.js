@@ -5,6 +5,7 @@ import LoginComponent from '../components/login-component';
 
 const mapStateToProps = function(state) {
     return {
+        title: state.layout.shortTitle || state.layout.title || '',
         initialUsername: state.user.username || '',
         isUpdating: state.user.isUpdating,
         errorMessage: state.user.loginError || ''

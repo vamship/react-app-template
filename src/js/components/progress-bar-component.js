@@ -12,7 +12,7 @@ class ProgressBarComponent extends React.Component {
         this.calculatePosition = this._getPositionCalculator(0, 0);
         this.getSegmentClickedHandler = (segment) => {
             return (e) => {
-                const percentPosition = (e.clientX/e.target.parentElement.offsetWidth);
+                const percentPosition = (e.clientX / e.target.parentElement.offsetWidth);
                 const position = this.calculatePosition(percentPosition);
                 this.props.onBarClicked({
                     position,
@@ -23,18 +23,18 @@ class ProgressBarComponent extends React.Component {
     }
 
     _getWidthCalculator(totalWidth) {
-        if(totalWidth <= 0) {
+        if (totalWidth <= 0) {
             return () => {
                 console.warn('Cannot calculate segment width. Total video length is <= 0');
                 return '0%';
             };
         }
         return (endTime, startTime) => {
-            if(typeof startTime === 'undefined') {
+            if (typeof startTime === 'undefined') {
                 startTime = 0;
             }
             const width = endTime - startTime;
-            if(isNaN(width) || width < 0) {
+            if (isNaN(width) || width < 0) {
                 console.warn(`Segment width is not a number or is negative: ${width} (${endTime}, ${startTime})`);
                 return '0%';
             }
@@ -57,17 +57,17 @@ class ProgressBarComponent extends React.Component {
         const videoSegments = [];
         events.filter((event) => {
             return (event !== undefined &&
-                    ((event.startTime >= windowStart && event.startTime < windowEnd) ||
-                     (event.endTime >= windowStart && event.endTime < windowEnd)));
+                ((event.startTime >= windowStart && event.startTime < windowEnd) ||
+                (event.endTime >= windowStart && event.endTime < windowEnd)));
         }).forEach((event) => {
-            if(event.startTime > segmentStart) {
+            if (event.startTime > segmentStart) {
                 videoSegments.push({
                     startTime: segmentStart,
                     endTime: event.startTime,
                     width: this.calculateWidth(event.startTime, segmentStart),
                     hasAlert: false
                 });
-            } 
+            }
             segmentStart = Math.max(segmentStart, event.startTime);
             const segmentEnd = Math.min(windowEnd, event.endTime);
             videoSegments.push({
@@ -91,18 +91,21 @@ class ProgressBarComponent extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(this.props.windowStart !== nextProps.windowStart ||
-           this.props.windowEnd !== nextProps.windowEnd) {
+        if (this.props.windowStart !== nextProps.windowStart ||
+            this.props.windowEnd !== nextProps.windowEnd) {
             const delta = nextProps.windowEnd - nextProps.windowStart;
             this.calculateWidth = this._getWidthCalculator(delta);
             this.calculatePosition = this._getPositionCalculator(nextProps.windowStart, delta);
             const videoSegments = this._buildVideoSegments(nextProps.events,
-                                                          nextProps.windowStart,
-                                                          nextProps.windowEnd);
+                nextProps.windowStart,
+                nextProps.windowEnd);
             const segmentKeyPrefix = this.state.segmentKeyPrefix + 1;
-            this.setState({ videoSegments, segmentKeyPrefix });
+            this.setState({
+                videoSegments,
+                segmentKeyPrefix
+            });
         }
-        if(this.props.currentPos >= nextProps.windowEnd) {
+        if (this.props.currentPos >= nextProps.windowEnd) {
             this.props.onWindowEnd();
         }
     }
@@ -137,21 +140,21 @@ class ProgressBarComponent extends React.Component {
                         );
                 }) }
             </div>
-        );
+            );
     }
 }
 
 ProgressBarComponent.propTypes = {
     windowStart: function(props, propName, componentName) {
         const windowStart = props[propName];
-        if(typeof windowStart !== 'number' || windowStart < 0) {
+        if (typeof windowStart !== 'number' || windowStart < 0) {
             return new Error(`Invalid windowStart supplied to ${componentName}. Must be a non negative number.`);
         }
     },
     windowEnd: function(props, propName, componentName) {
         const windowStart = props.windowStart;
         const windowEnd = props[propName];
-        if(typeof windowEnd !== 'number' || windowEnd < windowStart) {
+        if (typeof windowEnd !== 'number' || windowEnd < windowStart) {
             return new Error(`Invalid windowEnd supplied to ${componentName}. Must be greater than or equal to windowStart (${windowStart}).`);
         }
     },

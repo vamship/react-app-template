@@ -28,7 +28,7 @@ class LoginComponent extends React.Component {
                 paddingTop: 20,
                 textAlign: 'left'
             });
-
+        this.logoStyle = styles.LogoStyle;
     }
 
     handleUsernameChange(e) {
@@ -61,7 +61,7 @@ class LoginComponent extends React.Component {
               { this.props.isUpdating &&
                 <LinearProgress mode="indeterminate" /> }
               <div style={ { padding: 30 } }>
-                <h2>React App</h2>
+                <h2><span><img style={ this.logoStyle.style } src="/images/logo.png"></img></span> <span>{ this.props.title }</span></h2>
                 <div>
                   <TextField
                              hintText="username"
@@ -99,6 +99,7 @@ class LoginComponent extends React.Component {
 }
 
 LoginComponent.propTypes = {
+    title: PropTypes.string.isRequired,
     onLoginSubmit: PropTypes.func.isRequired,
     isUpdating: PropTypes.bool.isRequired,
     initialUsername: PropTypes.string,

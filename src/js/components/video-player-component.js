@@ -34,8 +34,8 @@ class VideoPlayerComponent extends React.Component {
             //console.log('Play/pause clicked');
         };
 
-        this.handleProgressBarClick = ({ position, segment }) => {
-            if(!this._isVideoReady()) {
+        this.handleProgressBarClick = ({position, segment}) => {
+            if (!this._isVideoReady()) {
                 return;
             }
             this.video.currentTime = position;
@@ -43,7 +43,7 @@ class VideoPlayerComponent extends React.Component {
             let pZoomedIn = this.state.pZoomedIn;
             let pStartTime = 0;
             let pEndTime = this.video.duration;
-            if(!pZoomedIn) {
+            if (!pZoomedIn) {
                 pStartTime = Math.max(pCurrentPos - 10, 0);
                 pEndTime = Math.min(pCurrentPos + 10, this.video.duration);
                 pZoomedIn = !pZoomedIn;
@@ -191,7 +191,7 @@ class VideoPlayerComponent extends React.Component {
     }
 
     componentWillUnmount() {
-        if(!this._isVideoReady()) {
+        if (!this._isVideoReady()) {
             return;
         }
         this.video.removeEventListener('loadedmetadata', this.handleMetadataLoad);
@@ -223,13 +223,13 @@ class VideoPlayerComponent extends React.Component {
                          srcLang="es"
                          src="content/subtitles/vtt/sintel-es.vtt" />
                 </video>
-                <div style={ { position: 'relative', top: -4 } } >
-                    <ProgressBarComponent
-                        windowStart={ this.state.pStartTime }
-                        windowEnd={ this.state.pEndTime }
-                        currentPos={ this.state.pCurrentPos }
-                        onBarClicked={ this.handleProgressBarClick }
-                        events={ this.state.pEvents } />
+                <div style={ { position: 'relative', top: -4 } }>
+                  <ProgressBarComponent
+                                        windowStart={ this.state.pStartTime }
+                                        windowEnd={ this.state.pEndTime }
+                                        currentPos={ this.state.pCurrentPos }
+                                        onBarClicked={ this.handleProgressBarClick }
+                                        events={ this.state.pEvents } />
                 </div>
                 <div style={ { position: 'relative' } }>
                   <div style={ { position: 'absolute', left: this.state.progress + '%', display: 'inline-block' } }>

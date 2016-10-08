@@ -2,7 +2,8 @@ import { handleActions } from 'redux-actions';
 
 const layout = handleActions({
 }, {
-    title: 'React App',
+    title: 'Industrial Thermal Monitoring',
+    shortTitle: 'ITMS',
     sidebarNav: [{
         title: 'Home',
         url: '/'
