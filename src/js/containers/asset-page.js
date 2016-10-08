@@ -4,28 +4,21 @@ import RaisedButton from 'material-ui/RaisedButton'
 import { navigator } from '../routes';
 import { loginActions } from '../actions';
 
-
-class DashboardComponent extends React.Component {
+class AssetComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.gotoAssets = navigator.getNavAction('/dashboard/assets');
+        this.gotoDashboard = navigator.getNavAction('/dashboard');
     }
 
     render() {
         return (
             <div>
               <div>
-                <strong>Dashboard</strong>
+                <strong>Assets</strong>
                 <div>
                   <div style={ { padding: 10 } }>
-                    <RaisedButton label="Assets" onClick={ this.gotoAssets } secondary={ true } />
+                    <RaisedButton label="Dashboard" onClick={ this.gotoDashboard } secondary={ true } />
                   </div>
-                  <div style={ { padding: 10 } }>
-                    <RaisedButton label="Logout" onClick={ this.props.doLogout } secondary={ true } />
-                  </div>
-                </div>
-                <div>
-                  { this.props.children }
                 </div>
               </div>
             </div>
@@ -33,7 +26,7 @@ class DashboardComponent extends React.Component {
     }
 }
 
-DashboardComponent.propTypes = {
+AssetComponent.propTypes = {
     doLogout: PropTypes.func.isRequired
 };
 
@@ -45,10 +38,10 @@ const mapDispatchToProps = function(dispatch) {
     };
 };
 
-const DashboardPage = connect(
+const AssetPage = connect(
     undefined,
     mapDispatchToProps
-)(DashboardComponent);
+)(AssetComponent);
 
 
-export default DashboardPage;
+export default AssetPage;

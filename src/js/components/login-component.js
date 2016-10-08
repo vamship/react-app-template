@@ -65,12 +65,7 @@ class LoginComponent extends React.Component {
               { this.props.isUpdating &&
                 <LinearProgress mode="indeterminate" /> }
               <div style={ { padding: 30 } }>
-                <h2>
-                <div style={ this.titleSectionStyle.style }>
-                    <img style={ this.logoStyle.style } src="/img/logo.png"></img>
-                </div>
-                <div style={ this.titleSectionStyle.style }>{ this.props.title }</div>
-                </h2>
+                <h2><div style={ this.titleSectionStyle.style }> <img style={ this.logoStyle.style } src="/img/logo.png"></img> </div> <div style={ this.titleSectionStyle.style }> { this.props.title } </div></h2>
                 <div>
                   <TextField
                              hintText="username"
