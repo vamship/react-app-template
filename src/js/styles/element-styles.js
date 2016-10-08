@@ -47,6 +47,13 @@ export const ErrorColor = new Style({
  */
 export const LogoStyle = new Style({
     height: 24,
+    display: 'block',
+    margin: 'auto',
     paddingRight: 10,
-    display: 'inline-block'
+    paddingLeft: 10,
+});
+
+export const TitleSectionStyle = new Style({
+    display: 'inline-block',
+    verticalAlign: 'middle'
 });

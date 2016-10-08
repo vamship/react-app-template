@@ -28,7 +28,9 @@ class LoginComponent extends React.Component {
                 paddingTop: 20,
                 textAlign: 'left'
             });
+
         this.logoStyle = styles.LogoStyle;
+        this.titleSectionStyle = styles.TitleSectionStyle;
     }
 
     handleUsernameChange(e) {
@@ -56,12 +58,19 @@ class LoginComponent extends React.Component {
     }
 
     render() {
+        const headerStyle = {
+        };
         return (
             <Paper style={ this.loginBoxStyle.style } zDepth={ 2 }>
               { this.props.isUpdating &&
                 <LinearProgress mode="indeterminate" /> }
               <div style={ { padding: 30 } }>
-                <h2><span><img style={ this.logoStyle.style } src="/images/logo.png"></img></span> <span>{ this.props.title }</span></h2>
+                <h2>
+                <div style={ this.titleSectionStyle.style }>
+                    <img style={ this.logoStyle.style } src="/img/logo.png"></img>
+                </div>
+                <div style={ this.titleSectionStyle.style }>{ this.props.title }</div>
+                </h2>
                 <div>
                   <TextField
                              hintText="username"

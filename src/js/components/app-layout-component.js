@@ -20,6 +20,7 @@ class AppLayoutComponent extends React.Component {
         this.gotoDashboard = this._getNavigateHandler('/dashboard');
         this.titleStyle = styles.ClickableElement;
         this.logoStyle = styles.LogoStyle;
+        this.titleSectionStyle = styles.TitleSectionStyle;
     }
 
     _getDrawerHandler(isOpen) {
@@ -40,8 +41,8 @@ class AppLayoutComponent extends React.Component {
             <div>
               <AppBar
                       title={ <div>
-                                <span><img style={ this.logoStyle.style } src="/images/logo.png"></img></span>
-                                <span>{ this.props.title }</span>
+                                <div style={ this.titleSectionStyle.style } ><img style={ this.logoStyle.style } src="/img/logo.png"></img></div>
+                                <div style={ this.titleSectionStyle.style } >{ this.props.title }</div>
                               </div> }
                       titleStyle={ this.titleStyle.style }
                       onLeftIconButtonTouchTap={ this.openDrawer }
@@ -54,8 +55,8 @@ class AppLayoutComponent extends React.Component {
                                                                                     }) }>
                 <AppBar
                         title={ <div>
-                                  <span><img style={ this.logoStyle.style } src="/images/logo.png"></img></span>
-                                  <span>{ this.props.shortTitle || this.props.title }</span>
+                                  <div style={ this.titleSectionStyle.style } ><img style={ this.logoStyle.style } src="/img/logo.png"></img></div>
+                                  <div style={ this.titleSectionStyle.style } >{ this.props.shortTitle || this.props.title }</div>
                                 </div> }
                         iconElementLeft={ <div /> }
                         onTitleTouchTap={ this.closeDrawer }
