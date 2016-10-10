@@ -1,16 +1,14 @@
 import { createActions } from 'redux-actions';
 
-export const loginActions = createActions(
-    'LOGIN_REQUEST',
-    'LOGIN_SUBMIT',
-    'LOGIN_SUCCESS',
-    'LOGIN_FAIL',
-    'LOGIN_IN_PROGRESS',
-    'LOGOUT_SUBMIT',
-    'LOGOUT_COMPLETE'
+export const userActions = createActions(
+    'USER_SESSION_INVALIDATED',
+    'USER_SESSION_INITIALIZED',
+    'USER_SESSION_UPDATE_STARTED',
+    'USER_LOGIN',
+    'USER_LOGOUT'
 );
 
 export const navActions = createActions(
-    'NAV_SET_REDIRECT',
-    'NAV_DO_REDIRECT'
+    'NAV_REDIRECT_SAVED',
+    'NAV_REDIRECT'
 );

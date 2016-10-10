@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, IndexRoute, hashHistory } from 'react-router';
 
-import { loginActions, navActions } from './actions';
+import { userActions, navActions } from './actions';
 import AppLayoutPage from './containers/app-layout-page';
 import HomePage from './containers/home-page';
 import LoginPage from './containers/login-page';
@@ -47,8 +47,8 @@ export default function createRoutes(store) {
             const isTokenValid = (user.tokenValidUntil >= Date.now());
             if (route.protected && !isTokenValid) {
                 const message = (user.authToken) ? 'Session expired' : '';
-                store.dispatch(navActions.navSetRedirect(path));
-                store.dispatch(loginActions.loginRequest(message));
+                store.dispatch(navActions.navRedirectSaved(path));
+                store.dispatch(userActions.userSessionInvalidated(message));
                 transition('/login');
             }
         };

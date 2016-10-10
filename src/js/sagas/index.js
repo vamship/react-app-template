@@ -1,10 +1,10 @@
 import { fork } from 'redux-saga/effects';
-import loginSagas from './login-sagas';
+import userSagas from './user-sagas';
 import navSagas from './nav-sagas';
 
 export default function*() {
     yield[
-        fork(loginSagas),
+        fork(userSagas),
         fork(navSagas)
     ];
 }

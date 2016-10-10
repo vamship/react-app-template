@@ -3,7 +3,7 @@ import { call, fork, select } from 'redux-saga/effects';
 import { navActions } from '../actions';
 import { navigator } from '../routes';
 
-function* doRedirect(action) {
+function* redirect(action) {
     const state = yield select();
     const url = action.payload || state.nav.redirectUrl || '/';
 
@@ -12,6 +12,6 @@ function* doRedirect(action) {
 
 export default function* navSagas() {
     yield[
-        fork(takeEvery, navActions.navDoRedirect.toString(), doRedirect)
+        fork(takeEvery, navActions.navRedirect.toString(), redirect)
     ];
 }

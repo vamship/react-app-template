@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import React, { PropTypes } from 'react';
-import { loginActions } from '../actions';
+import { userActions } from '../actions';
 
 const DashboardComponent = ({doLogout}) => {
     return (
@@ -24,7 +24,7 @@ DashboardComponent.propTypes = {
 const mapDispatchToProps = function(dispatch) {
     return {
         doLogout: () => {
-            dispatch(loginActions.logoutSubmit());
+            dispatch(userActions.userLogout());
         }
     };
 };

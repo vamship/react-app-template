@@ -41,8 +41,12 @@ class AppLayoutComponent extends React.Component {
             <div>
               <AppBar
                       title={ <div>
-                                <div style={ this.titleSectionStyle.style } ><img style={ this.logoStyle.style } src="/img/logo.png"></img></div>
-                                <div style={ this.titleSectionStyle.style } >{ this.props.title }</div>
+                                <div style={ this.titleSectionStyle.style }>
+                                  <img style={ this.logoStyle.style } src="/img/logo.png"></img>
+                                </div>
+                                <div style={ this.titleSectionStyle.style }>
+                                  { this.props.title }
+                                </div>
                               </div> }
                       titleStyle={ this.titleStyle.style }
                       onLeftIconButtonTouchTap={ this.openDrawer }
@@ -55,8 +59,12 @@ class AppLayoutComponent extends React.Component {
                                                                                     }) }>
                 <AppBar
                         title={ <div>
-                                  <div style={ this.titleSectionStyle.style } ><img style={ this.logoStyle.style } src="/img/logo.png"></img></div>
-                                  <div style={ this.titleSectionStyle.style } >{ this.props.shortTitle || this.props.title }</div>
+                                  <div style={ this.titleSectionStyle.style }>
+                                    <img style={ this.logoStyle.style } src="/img/logo.png"></img>
+                                  </div>
+                                  <div style={ this.titleSectionStyle.style }>
+                                    { this.props.shortTitle || this.props.title }
+                                  </div>
                                 </div> }
                         iconElementLeft={ <div /> }
                         onTitleTouchTap={ this.closeDrawer }
