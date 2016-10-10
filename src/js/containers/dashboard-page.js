@@ -18,7 +18,7 @@ class DashboardComponent extends React.Component {
     render() {
         return (
             <div>
-              <div>
+              <div style={ { padding: 10 } }>
                 <strong>Dashboard</strong>
                 <div>
                   <div style={ { padding: 10 } }>

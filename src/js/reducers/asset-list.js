@@ -30,7 +30,7 @@ const assetList = handleActions({
         });
     }
 }, {
-    items: [ ],
+    items: [],
     errorMessage: '',
     validUntil: 0,
     isUpdating: false

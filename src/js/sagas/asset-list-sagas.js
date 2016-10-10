@@ -4,10 +4,10 @@ import { assetListActions } from '../actions';
 
 function* fetchAssetList(action) {
     const assetList = yield select((state) => state.assetList);
-    if(assetList.isUpdating) {
+    if (assetList.isUpdating) {
         console.log('Asset list is updating. Skipping fetch');
         return;
-    } else if(assetList.validUntil > Date.now()) {
+    } else if (assetList.validUntil > Date.now()) {
         console.log('Asset list is already in cache');
         yield put(assetListActions.assetListInitialized({
             items: assetList.items,
@@ -23,7 +23,7 @@ function* fetchAssetList(action) {
         //     throw new Error('Asset fetch failed (simulated error)');
         // }
         const items = [];
-        for(let index=1; index<=10; index++) {
+        for (let index = 1; index <= 10; index++) {
             items.push({
                 assetId: `Asset_${index}`,
                 name: `Asset #${index}`,
@@ -36,7 +36,7 @@ function* fetchAssetList(action) {
             items,
             validUntil: Date.now() + (60 * 1000)
         }));
-    } catch(ex) {
+    } catch (ex) {
         yield put(assetListActions.assetListInvalidated(ex.message));
     }
 }

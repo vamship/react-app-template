@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton'
 import { navigator } from '../routes';
 import { userActions, assetListActions } from '../actions';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import LinearProgress from 'material-ui/LinearProgress';
+import * as styles from '../styles/element-styles';
 
 class AssetComponent extends React.Component {
     constructor(props) {
@@ -18,36 +20,58 @@ class AssetComponent extends React.Component {
     render() {
         return (
             <div>
-              <div> <strong>Assets</strong> </div>
+              <div>
+                <strong>Assets</strong>
+              </div>
               <div>
                 <div style={ { padding: 10 } }>
-                    <RaisedButton label="Dashboard" onClick={ this.gotoDashboard } secondary={ true } />
-                    <RaisedButton label="Refresh Assets" onClick={ this.props.fetchAssetList } secondary={ true } />
+                  <RaisedButton label="Dashboard" onClick={ this.gotoDashboard } secondary={ true } />
+                  <RaisedButton label="Refresh Assets" onClick={ this.props.fetchAssetList } secondary={ true } />
                 </div>
               </div>
               <div>
-                  <Table>
+                { this.props.isUpdating &&
+                  <LinearProgress mode="indeterminate" /> }
+                { <Table onCellClick={ (row, cell) => {
+                                           console.log(this.props.assetList[row]);
+                                       } }>
                     <TableHeader displaySelectAll={ false } adjustForCheckbox={ false }>
                       <TableRow>
-                        <TableHeaderColumn>Asset Id</TableHeaderColumn>
-                        <TableHeaderColumn>Name</TableHeaderColumn>
-                        <TableHeaderColumn>Description</TableHeaderColumn>
-                        <TableHeaderColumn>Floormap</TableHeaderColumn>
+                        <TableHeaderColumn>
+                          Asset Id
+                        </TableHeaderColumn>
+                        <TableHeaderColumn>
+                          Name
+                        </TableHeaderColumn>
+                        <TableHeaderColumn>
+                          Description
+                        </TableHeaderColumn>
+                        <TableHeaderColumn>
+                          Floormap
+                        </TableHeaderColumn>
                       </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={ false }>
-                        { this.props.assetList.map((asset, index) => {
+                      { this.props.assetList.map((asset, index) => {
                             return (
                                 <TableRow key={ index }>
-                                    <TableRowColumn>{ asset.assetId }</TableRowColumn>
-                                    <TableRowColumn>{ asset.name }</TableRowColumn>
-                                    <TableRowColumn>{ asset.description }</TableRowColumn>
-                                    <TableRowColumn>{ asset.floorMapId }</TableRowColumn>
+                                  <TableRowColumn>
+                                    { asset.assetId }
+                                  </TableRowColumn>
+                                  <TableRowColumn>
+                                    { asset.name }
+                                  </TableRowColumn>
+                                  <TableRowColumn>
+                                    { asset.description }
+                                  </TableRowColumn>
+                                  <TableRowColumn>
+                                    { asset.floorMapId }
+                                  </TableRowColumn>
                                 </TableRow>
-                            );
+                                );
                         }) }
                     </TableBody>
-                  </Table>
+                  </Table> }
               </div>
             </div>
             );
@@ -57,7 +81,7 @@ class AssetComponent extends React.Component {
 AssetComponent.propTypes = {
     doLogout: PropTypes.func.isRequired,
     fetchAssetList: PropTypes.func.isRequired,
-    listUpdating: PropTypes.bool.isRequired,
+    isUpdating: PropTypes.bool.isRequired,
     assetList: PropTypes.arrayOf(PropTypes.shape({
         assetId: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
@@ -68,7 +92,7 @@ AssetComponent.propTypes = {
 
 const mapStateToProps = function(state) {
     return {
-        listUpdating: !!state.assetList.isUpdating,
+        isUpdating: !!state.assetList.isUpdating,
         assetList: state.assetList.items
     };
 };
