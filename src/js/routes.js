@@ -52,7 +52,7 @@ export default function createRoutes(store) {
         route.onEnter = (nextState, transition) => {
             const user = (store.getState()).user;
             const path = nextState.location.pathname;
-            const isTokenValid = (user.tokenValidUntil >= Date.now());
+            const isTokenValid = (user.validUntil >= Date.now());
             if (route.protected && !isTokenValid) {
                 const message = (user.authToken) ? 'Session expired' : '';
                 store.dispatch(navActions.navRedirectSaved(path));
