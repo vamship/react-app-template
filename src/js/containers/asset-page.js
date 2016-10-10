@@ -46,9 +46,6 @@ class AssetComponent extends React.Component {
                         <TableHeaderColumn>
                           Description
                         </TableHeaderColumn>
-                        <TableHeaderColumn>
-                          Floormap
-                        </TableHeaderColumn>
                       </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={ false }>
@@ -63,9 +60,6 @@ class AssetComponent extends React.Component {
                                   </TableRowColumn>
                                   <TableRowColumn>
                                     { asset.description }
-                                  </TableRowColumn>
-                                  <TableRowColumn>
-                                    { asset.floorMapId }
                                   </TableRowColumn>
                                 </TableRow>
                                 );
@@ -85,8 +79,7 @@ AssetComponent.propTypes = {
     assetList: PropTypes.arrayOf(PropTypes.shape({
         assetId: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        description: PropTypes.string,
-        floorMapId: PropTypes.string.isRequired
+        description: PropTypes.string
     }).isRequired).isRequired
 };
 

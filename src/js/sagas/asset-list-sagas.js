@@ -1,6 +1,7 @@
 import { takeEvery, delay } from 'redux-saga';
 import { call, put, fork, select } from 'redux-saga/effects';
 import { assetListActions } from '../actions';
+import fetch from 'isomorphic-fetch';
 
 function* fetchAssetList(action) {
     const assetList = yield select((state) => state.assetList);
@@ -18,20 +19,24 @@ function* fetchAssetList(action) {
     yield put(assetListActions.assetListUpdateStarted());
 
     try {
-        yield call(delay, 2000);
-        // if (Math.random() > 0.8) {
-        //     throw new Error('Asset fetch failed (simulated error)');
-        // }
-        const items = [];
-        for (let index = 1; index <= 10; index++) {
-            items.push({
-                assetId: `Asset_${index}`,
-                name: `Asset #${index}`,
-                floorMapId: `floormap_${(index%3) + 1}`,
-                description: `Description for asset #${index}`
-            });
-        }
+        const user = yield select((state) => state.user);
+        const response = yield call(fetch,
+            'https://tc171wwqld.execute-api.us-east-1.amazonaws.com/dev/asset',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': user.authToken
+                }
+            }
+        );
 
+        if (!response.ok) {
+            throw new Error(`Asset list fetch failed with status: [${response.status}]`);
+        }
+        const items = yield call(() => {
+            return response.json()
+        });
         yield put(assetListActions.assetListInitialized({
             items,
             validUntil: Date.now() + (60 * 1000)
