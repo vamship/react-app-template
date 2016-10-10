@@ -1,1 +1,2 @@
-- Move styles to utility module
+- Change tokenValidUntil property of user object to "validUntil"
+- Change loginError property of user object to "errorMessage"
