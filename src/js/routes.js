@@ -15,7 +15,7 @@ const routes = (
   <Route component={ HomePage } />
   <Route path="login" component={ LoginPage } />
   <Route path="dashboard" component={ DashboardPage } protected>
-    <Route path="assets" component={ AssetPage } />
+    <Route path="assets" component={ AssetPage } protected />
   </Route>
   <Route path="video" component={ VideoPlayerPage } />
 </Route>
