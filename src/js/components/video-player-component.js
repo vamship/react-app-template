@@ -34,7 +34,7 @@ class VideoPlayerComponent extends React.Component {
             //console.log('Play/pause clicked');
         };
 
-        this.handleProgressBarClick = ({position, segment}) => {
+        this.handleProgressBarClick = ({position}) => {
             if (!this._isVideoReady()) {
                 return;
             }

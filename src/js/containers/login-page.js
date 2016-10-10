@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { loginActions } from '../actions';
+import { userActions } from '../actions';
 
 import LoginComponent from '../components/login-component';
 
@@ -15,7 +15,7 @@ const mapStateToProps = function(state) {
 const mapDispatchTopProps = function(dispatch) {
     return {
         onLoginSubmit: (credentials) => {
-            dispatch(loginActions.loginSubmit(credentials));
+            dispatch(userActions.userLogin(credentials));
         }
     };
 };

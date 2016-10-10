@@ -58,8 +58,6 @@ class LoginComponent extends React.Component {
     }
 
     render() {
-        const headerStyle = {
-        };
         return (
             <Paper style={ this.loginBoxStyle.style } zDepth={ 2 }>
               { this.props.isUpdating &&

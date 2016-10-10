@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton'
 import { navigator } from '../routes';
-import { loginActions } from '../actions';
+import { userActions } from '../actions';
 
 
 class DashboardComponent extends React.Component {
@@ -40,7 +40,7 @@ DashboardComponent.propTypes = {
 const mapDispatchToProps = function(dispatch) {
     return {
         doLogout: () => {
-            dispatch(loginActions.logoutSubmit());
+            dispatch(userActions.userLogout());
         }
     };
 };
