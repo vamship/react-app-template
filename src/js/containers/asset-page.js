@@ -2,7 +2,8 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton'
 import { navigator } from '../routes';
-import { loginActions } from '../actions';
+import { userActions, assetListActions } from '../actions';
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 
 class AssetComponent extends React.Component {
     constructor(props) {
@@ -10,16 +11,43 @@ class AssetComponent extends React.Component {
         this.gotoDashboard = navigator.getNavAction('/dashboard');
     }
 
+    componentDidMount() {
+        this.props.fetchAssetList();
+    }
+
     render() {
         return (
             <div>
+              <div> <strong>Assets</strong> </div>
               <div>
-                <strong>Assets</strong>
-                <div>
-                  <div style={ { padding: 10 } }>
+                <div style={ { padding: 10 } }>
                     <RaisedButton label="Dashboard" onClick={ this.gotoDashboard } secondary={ true } />
-                  </div>
+                    <RaisedButton label="Refresh Assets" onClick={ this.props.fetchAssetList } secondary={ true } />
                 </div>
+              </div>
+              <div>
+                  <Table>
+                    <TableHeader displaySelectAll={ false } adjustForCheckbox={ false }>
+                      <TableRow>
+                        <TableHeaderColumn>Asset Id</TableHeaderColumn>
+                        <TableHeaderColumn>Name</TableHeaderColumn>
+                        <TableHeaderColumn>Description</TableHeaderColumn>
+                        <TableHeaderColumn>Floormap</TableHeaderColumn>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody displayRowCheckbox={ false }>
+                        { this.props.assetList.map((asset, index) => {
+                            return (
+                                <TableRow key={ index }>
+                                    <TableRowColumn>{ asset.assetId }</TableRowColumn>
+                                    <TableRowColumn>{ asset.name }</TableRowColumn>
+                                    <TableRowColumn>{ asset.description }</TableRowColumn>
+                                    <TableRowColumn>{ asset.floorMapId }</TableRowColumn>
+                                </TableRow>
+                            );
+                        }) }
+                    </TableBody>
+                  </Table>
               </div>
             </div>
             );
@@ -27,19 +55,36 @@ class AssetComponent extends React.Component {
 }
 
 AssetComponent.propTypes = {
-    doLogout: PropTypes.func.isRequired
+    doLogout: PropTypes.func.isRequired,
+    fetchAssetList: PropTypes.func.isRequired,
+    listUpdating: PropTypes.bool.isRequired,
+    assetList: PropTypes.arrayOf(PropTypes.shape({
+        assetId: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired,
+        description: PropTypes.string,
+        floorMapId: PropTypes.string.isRequired
+    }).isRequired).isRequired
 };
 
+const mapStateToProps = function(state) {
+    return {
+        listUpdating: !!state.assetList.isUpdating,
+        assetList: state.assetList.items
+    };
+};
 const mapDispatchToProps = function(dispatch) {
     return {
         doLogout: () => {
-            dispatch(loginActions.logoutSubmit());
+            dispatch(userActions.logoutSubmit());
+        },
+        fetchAssetList: () => {
+            dispatch(assetListActions.assetListFetch());
         }
     };
 };
 
 const AssetPage = connect(
-    undefined,
+    mapStateToProps,
     mapDispatchToProps
 )(AssetComponent);
 

@@ -2,13 +2,17 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton'
 import { navigator } from '../routes';
-import { userActions } from '../actions';
+import { userActions, assetListActions } from '../actions';
 
 
 class DashboardComponent extends React.Component {
     constructor(props) {
         super(props);
         this.gotoAssets = navigator.getNavAction('/dashboard/assets');
+    }
+
+    componentDidMount() {
+        this.props.fetchAssetList();
     }
 
     render() {
@@ -19,8 +23,6 @@ class DashboardComponent extends React.Component {
                 <div>
                   <div style={ { padding: 10 } }>
                     <RaisedButton label="Assets" onClick={ this.gotoAssets } secondary={ true } />
-                  </div>
-                  <div style={ { padding: 10 } }>
                     <RaisedButton label="Logout" onClick={ this.props.doLogout } secondary={ true } />
                   </div>
                 </div>
@@ -34,13 +36,17 @@ class DashboardComponent extends React.Component {
 }
 
 DashboardComponent.propTypes = {
-    doLogout: PropTypes.func.isRequired
+    doLogout: PropTypes.func.isRequired,
+    fetchAssetList: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = function(dispatch) {
     return {
         doLogout: () => {
             dispatch(userActions.userLogout());
+        },
+        fetchAssetList: () => {
+            dispatch(assetListActions.assetListFetch());
         }
     };
 };
