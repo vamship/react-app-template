@@ -8,7 +8,7 @@ const mapStateToProps = function(state) {
         title: state.layout.shortTitle || state.layout.title || '',
         initialUsername: state.user.username || '',
         isUpdating: state.user.isUpdating,
-        errorMessage: state.user.loginError || ''
+        errorMessage: state.user.errorMessage || ''
     };
 };
 

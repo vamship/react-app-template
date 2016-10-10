@@ -9,10 +9,10 @@ const user = handleActions({
     [ USER_SESSION_INVALIDATED ]: (state, action) => {
         const message = action.payload;
         return Object.assign({}, state, {
-            loginError: message,
+            errorMessage: message,
             isUpdating: false,
             authToken: '',
-            tokenValidUntil: 0
+            validUntil: 0
         });
     },
     [ USER_SESSION_INITIALIZED ]: (state, action) => {
@@ -24,16 +24,16 @@ const user = handleActions({
             email: user.email,
             roles: (user.roles || []).map(role => role),
             authToken: user.authToken,
-            tokenValidUntil: user.tokenValidUntil,
+            validUntil: user.validUntil,
             isUpdating: false,
-            loginError: ''
+            errorMessage: ''
         });
     },
     [ USER_SESSION_UPDATE_STARTED ]: (state, action) => {
         const username = action.payload;
         return Object.assign({}, state, {
             username: username,
-            loginError: '',
+            errorMessage: '',
             isUpdating: true
         });
     }
@@ -44,9 +44,9 @@ const user = handleActions({
     email: '',
     roles: [],
     authToken: '',
-    tokenValidUntil: 0,
+    validUntil: 0,
     isUpdating: false,
-    loginError: ''
+    errorMessage: ''
 });
 
 export default user;

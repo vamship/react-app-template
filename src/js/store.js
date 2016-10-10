@@ -13,10 +13,10 @@ const loggerMiddleware = createLogger({
 
 const userTransform = createTransform(
     (state) => {
-        // Ensure that the loginError property is not persisted.
-        if (state.loginError) {
+        // Ensure that the errorMessage property is not persisted.
+        if (state.errorMessage) {
             return Object.assign({}, state, {
-                loginError: ''
+                errorMessage: ''
             });
         }
         return state;
