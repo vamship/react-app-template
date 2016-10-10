@@ -26,7 +26,7 @@ function* loginUser(action) {
         email: 'john.doe@nowhere.com',
         roles: ['user'],
         authToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Indjb3lvdGUiLCJhY2NvdW50SWQiOiJhY21lY29ycCIsInJvbGVzIjpbInVzZXIiXX0.L13lrC5RmrfZzaDXRMwVSqkH1keHh4nYEalQfg3kXFU',
-        validUntil: Date.now() + (60 * 1000)
+        validUntil: Date.now() + (15 * 60 * 1000)
     }));
     yield put(navActions.navRedirect());
 }
