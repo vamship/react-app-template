@@ -10,14 +10,20 @@ import AssetPage from './containers/asset-page';
 import VideoPlayerPage from './containers/video-player-page';
 
 const routes = (
-<Route path="/" component={ AppLayoutPage }>
+<Route name="Home" path="/" component={ AppLayoutPage }>
   <IndexRoute component={ HomePage } />
   <Route component={ HomePage } />
-  <Route path="login" component={ LoginPage } />
-  <Route path="dashboard" component={ DashboardPage } protected>
-    <Route path="assets" component={ AssetPage } protected />
+  <Route name="Login" path="login" component={ LoginPage } />
+  <Route name="Dashboard" path="dashboard" component={ DashboardPage } protected >
+    <Route name="Assets" path="assets" component={ AssetPage } protected >
+      <Route name="AssetId" path=":assetId" component={ VideoPlayerPage } protected>
+        <Route name="CameraId" path=":cameraId" component={ VideoPlayerPage } protected>
+            <Route name="Video" path="video" component={ VideoPlayerPage } protected />
+            <Route name="Frame" staticName={ true } path="frame/:timestamp" component={ VideoPlayerPage } protected />
+        </Route>
+      </Route>
+    </Route>
   </Route>
-  <Route path="video" component={ VideoPlayerPage } />
 </Route>
 );
 
