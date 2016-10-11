@@ -9,12 +9,16 @@ import DashboardPage from './containers/dashboard-page';
 import VideoPlayerPage from './containers/video-player-page';
 
 const routes = (
-<Route path="/" component={ AppLayoutPage }>
+<Route name="Home" path="/" component={ AppLayoutPage }>
   <IndexRoute component={ HomePage } />
   <Route component={ HomePage } />
-  <Route path="login" component={ LoginPage } />
-  <Route path="dashboard" component={ DashboardPage } protected />
-  <Route path="video" component={ VideoPlayerPage } />
+  <Route name="Login" path="login" component={ LoginPage } />
+  <Route
+         name="Dashboard"
+         path="dashboard"
+         component={ DashboardPage }
+         protected />
+  <Route name="Video" path="video" component={ VideoPlayerPage } />
 </Route>
 );
 

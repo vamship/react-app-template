@@ -5,6 +5,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import DashboardIcon from 'material-ui/svg-icons/action/dashboard';
+import Breadcrumbs from 'react-breadcrumbs';
 import { navigator } from '../routes';
 import * as styles from '../styles/element-styles';
 
@@ -75,7 +76,10 @@ class AppLayoutComponent extends React.Component {
                       <MenuItem key={ index } onTouchTap={ this._getNavigateHandler(item.url) } primaryText={ item.title } />
                   )) }
               </Drawer>
-              <div>
+              <div style={ { padding: 10 } }>
+                <div>
+                  <Breadcrumbs routes={ this.props.routes } params={ this.props.params } />
+                </div>
                 { this.props.children }
               </div>
             </div>
