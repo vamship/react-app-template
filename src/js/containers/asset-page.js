@@ -1,10 +1,12 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import RaisedButton from 'material-ui/RaisedButton'
-import { navigator } from '../routes';
-import { userActions, assetListActions } from '../actions';
+import { userActions, assetListActions, cameraListActions } from '../actions';
+
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import RaisedButton from 'material-ui/RaisedButton'
 import LinearProgress from 'material-ui/LinearProgress';
+
+import { navigator } from '../routes';
 import * as styles from '../styles/element-styles';
 
 class AssetComponent extends React.Component {
@@ -27,21 +29,22 @@ class AssetComponent extends React.Component {
                 <div style={ { padding: 10 } }>
                   <RaisedButton label="Dashboard" onClick={ this.gotoDashboard } secondary={ true } />
                   <RaisedButton label="Refresh Assets" onClick={ this.props.fetchAssetList } secondary={ true } />
+                  <RaisedButton label="Refresh Cameras" onClick={ this.props.fetchCameraList } secondary={ true } />
                 </div>
               </div>
               <div>
                 { this.props.isUpdating &&
                   <LinearProgress mode="indeterminate" /> }
                 { <Table onCellClick={ (row, cell) => {
-                                           console.log(this.props.assetList[row]);
+                                           console.log('Item clicked: ', this.props.assetList[row]);
                                        } }>
                     <TableHeader displaySelectAll={ false } adjustForCheckbox={ false }>
                       <TableRow>
                         <TableHeaderColumn>
-                          Asset Id
+                          Name
                         </TableHeaderColumn>
                         <TableHeaderColumn>
-                          Name
+                          Cameras
                         </TableHeaderColumn>
                         <TableHeaderColumn>
                           Description
@@ -53,10 +56,10 @@ class AssetComponent extends React.Component {
                             return (
                                 <TableRow key={ index }>
                                   <TableRowColumn>
-                                    { asset.assetId }
+                                    { asset.name }
                                   </TableRowColumn>
                                   <TableRowColumn>
-                                    { asset.name }
+                                    { asset.cameras.length }
                                   </TableRowColumn>
                                   <TableRowColumn>
                                     { asset.description }
@@ -79,14 +82,47 @@ AssetComponent.propTypes = {
     assetList: PropTypes.arrayOf(PropTypes.shape({
         assetId: PropTypes.string.isRequired,
         name: PropTypes.string.isRequired,
-        description: PropTypes.string
+        description: PropTypes.string,
+        cameras: PropTypes.arrayOf(PropTypes.shape({
+            cameraId: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            description: PropTypes.string.isRequired
+        }).isRequired).isRequired
     }).isRequired).isRequired
 };
+
+function _linkCamerasToAssets(assets, cameras) {
+    const assetMap = { };
+    const linkedAssets = [];
+    assets.forEach((assetRecord) => {
+        const {assetId, name, description} = assetRecord;
+        const asset = Object.assign({}, {
+            assetId,
+            name,
+            description,
+            cameras: []
+        });
+        assetMap[assetRecord.assetId] = asset;
+        linkedAssets.push(asset);
+    });
+    cameras.forEach((cameraRecord) => {
+        const {cameraId, assetId, name, description} = cameraRecord;
+        const asset = assetMap[assetId];
+        if (asset) {
+            asset.cameras.push(Object.assign({}, {
+                cameraId,
+                name,
+                description
+            }));
+        }
+    });
+    return linkedAssets;
+}
 
 const mapStateToProps = function(state) {
     return {
         isUpdating: !!state.assetList.isUpdating,
-        assetList: state.assetList.items
+        assetList: _linkCamerasToAssets(state.assetList.items, state.cameraList.items)
     };
 };
 const mapDispatchToProps = function(dispatch) {
@@ -96,6 +132,9 @@ const mapDispatchToProps = function(dispatch) {
         },
         fetchAssetList: () => {
             dispatch(assetListActions.assetListFetch());
+        },
+        fetchCameraList: () => {
+            dispatch(cameraListActions.cameraListFetch());
         }
     };
 };

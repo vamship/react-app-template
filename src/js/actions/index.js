@@ -19,3 +19,10 @@ export const assetListActions = createActions(
     'ASSET_LIST_INVALIDATED',
     'ASSET_LIST_FETCH'
 );
+
+export const cameraListActions = createActions(
+    'CAMERA_LIST_UPDATE_STARTED',
+    'CAMERA_LIST_INITIALIZED',
+    'CAMERA_LIST_INVALIDATED',
+    'CAMERA_LIST_FETCH'
+);

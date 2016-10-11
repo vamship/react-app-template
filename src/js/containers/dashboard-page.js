@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton'
 import { navigator } from '../routes';
-import { userActions, assetListActions } from '../actions';
+import { userActions, assetListActions, cameraListActions } from '../actions';
 
 
 class DashboardComponent extends React.Component {
@@ -13,6 +13,7 @@ class DashboardComponent extends React.Component {
 
     componentDidMount() {
         this.props.fetchAssetList();
+        this.props.fetchCameraList();
     }
 
     render() {
@@ -37,7 +38,8 @@ class DashboardComponent extends React.Component {
 
 DashboardComponent.propTypes = {
     doLogout: PropTypes.func.isRequired,
-    fetchAssetList: PropTypes.func.isRequired
+    fetchAssetList: PropTypes.func.isRequired,
+    fetchCameraList: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = function(dispatch) {
@@ -47,6 +49,9 @@ const mapDispatchToProps = function(dispatch) {
         },
         fetchAssetList: () => {
             dispatch(assetListActions.assetListFetch());
+        },
+        fetchCameraList: () => {
+            dispatch(cameraListActions.cameraListFetch());
         }
     };
 };
