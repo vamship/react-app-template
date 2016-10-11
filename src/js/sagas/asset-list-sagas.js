@@ -21,7 +21,7 @@ function* fetchAssetList(action) {
     yield put(assetListActions.assetListUpdateStarted());
 
     try {
-        const items = yield call([ assetListDataAccess, assetListDataAccess.fetch ]);
+        const items = yield call([assetListDataAccess, assetListDataAccess.fetch]);
         yield put(assetListActions.assetListInitialized({
             items,
             validUntil: Date.now() + (60 * 1000)

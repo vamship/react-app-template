@@ -25,8 +25,8 @@ export default class DataAccess {
      *
      * @return {Object} The data obtained from the resource.
      */
-    *fetch(url) {
-        if(typeof url !== 'string') {
+    * fetch(url) {
+        if (typeof url !== 'string') {
             url = '';
         }
         try {
