@@ -1,7 +1,9 @@
 import { takeEvery, delay } from 'redux-saga';
 import { call, put, fork, select } from 'redux-saga/effects';
 import { assetListActions } from '../actions';
-import fetch from 'isomorphic-fetch';
+import DataAccess from './helpers/data-access'
+
+const assetListDataAccess = new DataAccess('/asset', 'Asset list');
 
 function* fetchAssetList(action) {
     const assetList = yield select((state) => state.assetList);
@@ -19,24 +21,7 @@ function* fetchAssetList(action) {
     yield put(assetListActions.assetListUpdateStarted());
 
     try {
-        const user = yield select((state) => state.user);
-        const response = yield call(fetch,
-            'https://tc171wwqld.execute-api.us-east-1.amazonaws.com/dev/asset',
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': user.authToken
-                }
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error(`Asset list fetch failed with status: [${response.status}]`);
-        }
-        const items = yield call(() => {
-            return response.json()
-        });
+        const items = yield call([ assetListDataAccess, assetListDataAccess.fetch ]);
         yield put(assetListActions.assetListInitialized({
             items,
             validUntil: Date.now() + (60 * 1000)
